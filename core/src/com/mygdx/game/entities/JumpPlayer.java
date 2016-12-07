@@ -1,10 +1,10 @@
-package com.mygdx.game;
+package com.mygdx.game.entities;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-
+import com.mygdx.game.assets.Assets;
 
 
 /**

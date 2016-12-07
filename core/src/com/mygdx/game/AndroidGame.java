@@ -11,6 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.UI.SimpleLabel;
+import com.mygdx.game.assets.Assets;
+import com.mygdx.game.entities.JumpPlayer;
+import com.mygdx.game.entities.Platform;
 
 public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
@@ -21,6 +25,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
     public enum JumpMode {
         MANUAL, AUTO
     }
+    private float screenY = 800, screenX = 480;
 
 	SpriteBatch batch;
 	private Assets assets;
@@ -34,7 +39,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 	private OrthographicCamera camera;
 	private float gravity = -20;
 
-	private float screenY = 800, screenX = 480;
+    private SimpleLabel accXValueLabel;
 
     private ControlMode controlMode = ControlMode.ACCELEROMETER;
     private JumpMode jumpMode = JumpMode.MANUAL;
@@ -48,6 +53,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 		if(assets.manager.update()){
 			loadData();
 			init();
+            initAccXValueLabel();
 		}
 
 
@@ -81,6 +87,11 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
 	}
 
+    private void initAccXValueLabel() {
+        accXValueLabel = new SimpleLabel("");
+//        stage.addActor(accXValueLabel);
+    }
+
 	private void loadData() {
 		playerTexture = assets.manager.get("player.png",Texture.class);
 		toiletClosedTexture = assets.manager.get("toilet_closed.png",Texture.class);
@@ -102,6 +113,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 			p.draw(batch);
 		}
 		player.draw(batch);
+        accXValueLabel.draw(batch, 100f);
 
 		batch.end();
 	}
@@ -128,7 +140,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 				player.y = p.y + p.height-10;
 				player.canJump = true;
 				player.jumpSpeed = 0;
-				if (player.y >= 250 * 10 && player.canJump ==true){
+				if (player.y >= 250 * 10){
 					endGame();
 
 				}
@@ -152,10 +164,11 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 	private void handleInput() {
         if (controlMode == ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
-            if(accelerometerX > 2.0){
+            accXValueLabel.setText(Float.toString(accelerometerX));
+            if(accelerometerX > 2.0 && player.x > -0){
                 player.x -= 500 * Gdx.graphics.getDeltaTime();
             }
-            if(accelerometerX < 2.0){
+            if(accelerometerX < -2.0 && player.x < 300){
                 player.x += 500 * Gdx.graphics.getDeltaTime();
             }
         }
