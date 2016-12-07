@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -13,8 +12,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-
 public class AndroidGame extends ApplicationAdapter implements InputProcessor {
+
+    public enum ControlMode {
+        MANUAL, ACCELEROMETER
+    }
+
+    public enum JumpMode {
+        MANUAL, AUTO
+    }
 
 	SpriteBatch batch;
 	private Assets assets;
@@ -29,6 +35,9 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 	private float gravity = -20;
 
 	private float screenY = 800, screenX = 480;
+
+    private ControlMode controlMode = ControlMode.ACCELEROMETER;
+    private JumpMode jumpMode = JumpMode.MANUAL;
 
 	@Override
 	public void create () {
@@ -84,6 +93,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 		update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 		batch.setProjectionMatrix(camera.combined);
 
 		batch.begin();
@@ -123,10 +133,6 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
 				}
 			}
-
-
-
-
 		}
 
 	}
@@ -144,18 +150,28 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 	}
 
 	private void handleInput() {
-		if(Gdx.input.isKeyPressed(Input.Keys.A)){
-			player.x -= 500 * Gdx.graphics.getDeltaTime();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.D)){
-			player.x += 500 * Gdx.graphics.getDeltaTime();
-		}
+        if (controlMode == ControlMode.ACCELEROMETER) {
+            float accelerometerX = Gdx.input.getAccelerometerX();
+            if(accelerometerX > 2.0){
+                player.x -= 500 * Gdx.graphics.getDeltaTime();
+            }
+            if(accelerometerX < 2.0){
+                player.x += 500 * Gdx.graphics.getDeltaTime();
+            }
+        }
 
-		if(Gdx.input.justTouched()){
-			player.jump();
-		}
-
-
+        switch (jumpMode) {
+            case MANUAL: {
+                if (Gdx.input.justTouched()) {
+                    player.jump();
+                }
+                break;
+            }
+            case AUTO: {
+                player.jump();
+                break;
+            }
+        }
 	}
 
 	@Override
@@ -193,16 +209,18 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (screenX<240) {
-			player.x -= 500 * Gdx.graphics.getDeltaTime();
+        if (controlMode == ControlMode.MANUAL) {
+            if (screenX < 240) {
+                player.x -= 500 * Gdx.graphics.getDeltaTime();
 
-			return true;
-		}
-		if (screenX>240) {
-			player.x += 500 * Gdx.graphics.getDeltaTime();
-			return true;
-		}
-		return false;
+                return true;
+            }
+            if (screenX > 240) {
+                player.x += 500 * Gdx.graphics.getDeltaTime();
+                return true;
+            }
+        }
+		return true;
 	}
 
 	@Override
