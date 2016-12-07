@@ -50,13 +50,11 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 		assets.load();
 		assets.manager.finishLoading();
 
-		if(assets.manager.update()){
-			loadData();
-			init();
+		if(assets.manager.update()) {
+            loadData();
+            init();
             initAccXValueLabel();
-		}
-
-
+        }
 	}
 
 	private void init() {
@@ -124,32 +122,39 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
 		camera.position.set(player.x + player.width/2, player.y + 300, 0);
 		camera.update();
-
-		player.y += player.jumpSpeed * Gdx.graphics.getDeltaTime();
-
-		if(player.y > 0){
-			player.jumpSpeed += gravity;
-		} else {
-			player.y = 0;
-			player.canJump = true;
-			player.jumpSpeed = 0;
-		}
-
-		for (Platform p : platformArray){
-			if(isPlayerOnPlatform(p)){
-				player.y = p.y + p.height-10;
-				player.canJump = true;
-				player.jumpSpeed = 0;
-				if (player.y >= 250 * 10){
-					endGame();
-
-				}
-			}
-		}
-
+        labelPositionUpdate();
+        playerPositionUpdate();
 	}
 
-	private void endGame() {
+    private void playerPositionUpdate() {
+        player.y += player.jumpSpeed * Gdx.graphics.getDeltaTime();
+
+        if(player.y > 0){
+            player.jumpSpeed += gravity;
+        } else {
+            player.y = 0;
+            player.canJump = true;
+            player.jumpSpeed = 0;
+        }
+
+        for (Platform p : platformArray){
+            if(isPlayerOnPlatform(p)){
+                player.y = p.y + p.height-10;
+                player.canJump = true;
+                player.jumpSpeed = 0;
+                if (player.y >= 250 * 10){
+                    endGame();
+
+                }
+            }
+        }
+    }
+
+    private void labelPositionUpdate() {
+        accXValueLabel.setPosition(camera.position.x + 100,camera.position.y + 350);
+    }
+
+    private void endGame() {
 		Sound endGameSound;
 		//TODO;
 		//endGameSound = assets.manager.get("endgame.ogg",Sound.class);
@@ -165,10 +170,10 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
         if (controlMode == ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
             accXValueLabel.setText(Float.toString(accelerometerX));
-            if(accelerometerX > 2.0 && player.x > -0){
+            if(accelerometerX > 1.2 && player.x > -50){
                 player.x -= 500 * Gdx.graphics.getDeltaTime();
             }
-            if(accelerometerX < -2.0 && player.x < 300){
+            if(accelerometerX < -1.2 && player.x < 400){
                 player.x += 500 * Gdx.graphics.getDeltaTime();
             }
         }
