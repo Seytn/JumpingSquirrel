@@ -21,7 +21,6 @@ public class Platform extends Rectangle {
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y);
-
     }
 
 }

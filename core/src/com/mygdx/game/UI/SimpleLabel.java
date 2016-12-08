@@ -2,6 +2,7 @@ package com.mygdx.game.UI;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 /**
@@ -19,5 +20,9 @@ public class SimpleLabel extends Label{
     private void init() {
         this.setX(370);
         this.setY(650);
+    }
+
+    public void draw(SpriteBatch batch) {
+        this.draw(batch, 1.0f);
     }
 }

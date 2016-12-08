@@ -66,7 +66,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 		camera = new OrthographicCamera(screenX,screenY);
 
 		player = new JumpPlayer(playerTexture,assets);
-		player.setX(240);
+		player.setX(screenX / 2);
 		platformArray = new Array<Platform>();
 
 		for(int i = 1; i<10; i++){
@@ -87,7 +87,6 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 
     private void initAccXValueLabel() {
         accXValueLabel = new SimpleLabel("");
-//        stage.addActor(accXValueLabel);
     }
 
 	private void loadData() {
@@ -111,7 +110,7 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
 			p.draw(batch);
 		}
 		player.draw(batch);
-        accXValueLabel.draw(batch, 100f);
+        accXValueLabel.draw(batch);
 
 		batch.end();
 	}
@@ -170,10 +169,10 @@ public class AndroidGame extends ApplicationAdapter implements InputProcessor {
         if (controlMode == ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
             accXValueLabel.setText(Float.toString(accelerometerX));
-            if(accelerometerX > 1.2 && player.x > -50){
+            if(accelerometerX > 1.2 && player.x > 0){
                 player.x -= 500 * Gdx.graphics.getDeltaTime();
             }
-            if(accelerometerX < -1.2 && player.x < 400){
+            if(accelerometerX < -1.2 && player.x < screenX){
                 player.x += 500 * Gdx.graphics.getDeltaTime();
             }
         }

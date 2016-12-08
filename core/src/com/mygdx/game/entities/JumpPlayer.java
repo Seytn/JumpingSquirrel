@@ -29,7 +29,6 @@ public class JumpPlayer extends Rectangle {
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y);
-
     }
 
     public void jump(){
