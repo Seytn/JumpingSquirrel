@@ -12,7 +12,7 @@ import com.mygdx.game.assets.Assets;
  */
 public class JumpPlayer extends Rectangle {
 
-
+    public final Float speed = 500.0F;
     private Sound jumpSound;
     private Texture texture;
     public boolean canJump = true;
