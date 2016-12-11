@@ -48,7 +48,7 @@ class AbstractScreen implements Screen {
     }
 
     private void cameraUpdate() {
-        camera.position.set(player.x + player.width/2, player.y + 300, 0);
+        camera.position.set(player.getX() + player.getWidth()/2, player.getY() + 300, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.ClickCallback;
@@ -38,7 +39,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initControlTypeSelectButton();
         initAccXValueLabel();
 
-        player.setX(SCREEN_X / 2);
+        stage.addActor(player);
     }
 
     private void playMusic() {
@@ -84,17 +85,19 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
         for(int i = 1; i<10; i++){
             Platform p = new Platform(toiletClosedTexture);
-            p.height = 110;
-            p.x = MathUtils.random(380);
-            p.y = 250 * i;
+            p.setHeight(110);
+            p.setX(MathUtils.random(380));
+            p.setY(250 * i);
             platformArray.add(p);
+            stage.addActor(p);
         }
 
         Platform p = new Platform(toiletOpenedTexture);
-        p.height = 100;
-        p.x = MathUtils.random(400);
-        p.y = 250 * 10;
+        p.setHeight(100);
+        p.setX(MathUtils.random(400));
+        p.setY(250 * 10);
         platformArray.add(p);
+        stage.addActor(p);
     }
 
     private void update() {
@@ -103,6 +106,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         labelPositionUpdate();
         playerPositionUpdate();
         buttonsPositionUpdate();
+
+        stage.act();
     }
 
     private void labelPositionUpdate() {
@@ -113,18 +118,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
             accXValueLabel.setText(Float.toString(accelerometerX));
-            if(accelerometerX > 0.1 && player.x > 0){
+            if(accelerometerX > 0.1 && player.getX() > 0){
                 if (accelerometerX < 0.5 && accelerometerX > 0.05){
-                    player.x -= player.speed / 3 * Gdx.graphics.getDeltaTime();
+                    player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
-                    player.x -= player.speed * Gdx.graphics.getDeltaTime();
+                    player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
                 }
             }
-            if(accelerometerX < -0.1 && player.x < SCREEN_X){
+            if(accelerometerX < -0.1 && player.getX() < SCREEN_X){
                 if (accelerometerX > -0.5 && accelerometerX < 0.05){
-                    player.x += player.speed / 3 * Gdx.graphics.getDeltaTime();
+                    player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
-                    player.x += player.speed * Gdx.graphics.getDeltaTime();
+                    player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
                 }
             }
         }
@@ -148,22 +153,22 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void playerPositionUpdate() {
-        player.y += player.jumpSpeed * Gdx.graphics.getDeltaTime();
+        player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
 
-        if(player.y > 0){
+        if(player.getY() > 0){
             player.jumpSpeed += GRAVITY;
         } else {
-            player.y = 0;
+            player.setY(0);
             player.canJump = true;
             player.jumpSpeed = 0;
         }
 
         for (Platform p : platformArray){
             if(isPlayerOnPlatform(p)){
-                player.y = p.y + p.height-10;
+                player.setY(p.getY() + p.getHeight()-10);
                 player.canJump = true;
                 player.jumpSpeed = 0;
-                if (player.y >= 250 * 10){
+                if (player.getY() >= 250 * 10){
 //                    endGame();
 
                 }
@@ -172,7 +177,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private boolean isPlayerOnPlatform(Platform p) {
-        return player.jumpSpeed <= 0 && player.overlaps(p) && player.y > p.y;
+        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        Rectangle rectPlatform = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+        return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && player.getY() > p.getY();
     }
 
     @Override
@@ -184,10 +191,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         for(Platform p : platformArray){
             p.draw(batch);
         }
-        player.draw(batch);
 
-        accXValueLabel.draw(batch);
-        controlModeSelectButton.draw(batch, 1.0f);
+
+//        stage.draw();
+//
+
+        player.draw(batch);
+//        accXValueLabel.draw(batch);
+//        controlModeSelectButton.draw(batch, 1.0f);
 
         batch.end();
     }
@@ -221,12 +232,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public boolean touchDragged(int tapX, int tapY, int pointer) {
         if (game.controlMode == AndroidGame.ControlMode.MANUAL) {
             if (tapX < SCREEN_X / 2) {
-                player.x -= player.speed * Gdx.graphics.getDeltaTime();
+                player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
 
                 return true;
             }
             if (tapX > SCREEN_X / 2) {
-                player.x += player.speed * Gdx.graphics.getDeltaTime();
+                player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
                 return true;
             }
         }
