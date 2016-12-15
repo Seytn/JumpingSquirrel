@@ -25,7 +25,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     protected Array<Platform> platformArray;
     private Music music;
-    private Texture playerTexture, toiletClosedTexture, toiletOpenedTexture;
+    private Texture toiletClosedTexture, toiletOpenedTexture;
 
     private SimpleLabel accXValueLabel;
     private ControlModeSelectButton controlModeSelectButton;
@@ -69,7 +69,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void loadData() {
-        playerTexture = game.assets.manager.get("player.png",Texture.class);
         toiletClosedTexture = game.assets.manager.get("toilet_closed.png",Texture.class);
         toiletOpenedTexture = game.assets.manager.get("toilet_opened.png",Texture.class);
         music = game.assets.manager.get("theme.mp3", Music.class);
@@ -118,15 +117,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
             accXValueLabel.setText(Float.toString(accelerometerX));
-            if(accelerometerX > 0.1 && player.getX() > 0){
-                if (accelerometerX < 0.5 && accelerometerX > 0.05){
+            if(accelerometerX > 0.3 && player.getX() > 0){
+                if (accelerometerX < 0.6){
                     player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
                     player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
                 }
             }
-            if(accelerometerX < -0.1 && player.getX() < SCREEN_X){
-                if (accelerometerX > -0.5 && accelerometerX < 0.05){
+            if(accelerometerX < -0.3 && player.getX() < SCREEN_X){
+                if (accelerometerX > -0.6){
                     player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
                     player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
@@ -149,7 +148,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void buttonsPositionUpdate() {
-//		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
+		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
     }
 
     private void playerPositionUpdate() {
@@ -193,10 +192,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
 
 
-//        stage.draw();
+        stage.draw();
 //
 
-        player.draw(batch);
 //        accXValueLabel.draw(batch);
 //        controlModeSelectButton.draw(batch, 1.0f);
 

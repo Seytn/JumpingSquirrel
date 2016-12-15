@@ -15,7 +15,6 @@ public class Platform extends Image {
         this.texture = texture;
         this.setHeight(texture.getHeight());
         this.setWidth(texture.getWidth());
-
     }
 
     public void draw(SpriteBatch batch) {
