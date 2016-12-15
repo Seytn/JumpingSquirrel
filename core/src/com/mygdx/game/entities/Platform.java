@@ -1,7 +1,6 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -9,16 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class Platform extends Image {
 
-    private Texture texture;
-
     public Platform (Texture texture) {
-        this.texture = texture;
-        this.setHeight(texture.getHeight());
-        this.setWidth(texture.getWidth());
+        super(texture);
+        this.setSize(texture.getWidth(), texture.getHeight());
     }
 
-    public void draw(SpriteBatch batch) {
-        batch.draw(texture, this.getX(), this.getY());
-    }
 
 }

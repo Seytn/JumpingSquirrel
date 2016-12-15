@@ -21,14 +21,14 @@ public class JumpPlayer extends Image {
 
     public JumpPlayer(Texture texture, Assets assets) {
         super(texture);
-        this.setSize(texture.getHeight(), texture.getWidth());
+        this.setSize(texture.getWidth(), texture.getHeight());
         this.setOrigin(this.getWidth() / 2, this.getHeight() / 2);
         jumpSound = assets.manager.get("jump.ogg",Sound.class);
     }
 
     public void jump(){
         if(canJump){
-            jumpSpeed += 900;
+            jumpSpeed += 1100;
             canJump = false;
             jumpSound.play();
             roll();
@@ -37,8 +37,8 @@ public class JumpPlayer extends Image {
 
     private void roll() {
         Action jumpAnimation = Actions.sequence(
-                Actions.sizeBy(10.0f, 10.0f, 0.2f),
-                Actions.sizeBy(-10.0f, -10.0f, 0.2f)
+                Actions.sizeBy(20.0f, 20.0f, 0.2f),
+                Actions.sizeBy(-20.0f, -20.0f, 0.2f)
         );
         Action roll = Actions.parallel(
                 jumpAnimation,

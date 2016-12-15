@@ -21,10 +21,10 @@ class AbstractScreen implements Screen {
 
     protected AndroidGame game;
 
-    Stage stage;
-    OrthographicCamera camera;
-    SpriteBatch batch;
-    JumpPlayer player;
+    public Stage stage;
+    public OrthographicCamera camera;
+    public SpriteBatch batch;
+    public JumpPlayer player;
 
     AbstractScreen(AndroidGame game, JumpPlayer player) {
         this.game = game;

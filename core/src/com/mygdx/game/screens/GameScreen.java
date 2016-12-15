@@ -86,21 +86,34 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
         for(int i = 1; i<10; i++){
             Platform p = new Platform(toiletClosedTexture);
-            p.setHeight(110);
             p.setX(MathUtils.random(380));
-            p.setY(250 * i);
+            p.setY(220 * i);
             platformArray.add(p);
             stage.addActor(p);
         }
 
         Platform p = new Platform(toiletOpenedTexture);
-        p.setHeight(100);
         p.setX(MathUtils.random(400));
-        p.setY(250 * 10);
+        p.setY(220 * 10);
         platformArray.add(p);
         stage.addActor(p);
     }
 
+    /* Main render method */
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        update();
+
+        batch.begin();
+        stage.draw();
+        batch.end();
+
+//        controlModeSelectButton.draw(batch, 1.0f);
+
+    }
+
+    /* objects (images, labels, buttons etc.) position update methods */
     private void update() {
         handleInput();
 
@@ -115,6 +128,45 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 350);
     }
 
+
+
+    private void buttonsPositionUpdate() {
+		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
+    }
+
+    /* Handle player jumping animation */
+    private void playerYPositionUpdate() {
+        player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
+
+        if(player.getY() > 0){
+            player.jumpSpeed += GRAVITY;
+        } else {
+            player.setY(0);
+            player.canJump = true;
+            player.jumpSpeed = 0;
+        }
+
+        for (Platform p : platformArray){
+            if(isPlayerOnPlatform(p)){
+                player.setY(p.getY() + p.getHeight()-10);
+                player.canJump = true;
+                player.jumpSpeed = 0;
+                if (player.getY() >= 250 * 10){
+//                    endGame();
+
+                }
+            }
+        }
+    }
+
+    /* Stops falling down if on a platform */
+    private boolean isPlayerOnPlatform(Platform p) {
+        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        Rectangle rectPlatform = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+        return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && rectPlayer.getY() > rectPlatform.getY() + rectPlatform.getHeight() - 20;
+    }
+
+    /* Input handling methods */
     private void handleInput() {
         /* Accelerometer handler */
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
@@ -153,61 +205,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 break;
             }
         }
-    }
-
-    private void buttonsPositionUpdate() {
-		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
-    }
-
-    /* Handle player jumping and animation */
-    private void playerYPositionUpdate() {
-        player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
-
-        if(player.getY() > 0){
-            player.jumpSpeed += GRAVITY;
-        } else {
-            player.setY(0);
-            player.canJump = true;
-            player.jumpSpeed = 0;
-        }
-
-        for (Platform p : platformArray){
-            if(isPlayerOnPlatform(p)){
-                player.setY(p.getY() + p.getHeight()-10);
-                player.canJump = true;
-                player.jumpSpeed = 0;
-                if (player.getY() >= 250 * 10){
-//                    endGame();
-
-                }
-            }
-        }
-    }
-
-    /* Stops falling down if on a platform */
-    private boolean isPlayerOnPlatform(Platform p) {
-        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-        Rectangle rectPlatform = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
-        return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && player.getY() > p.getY();
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        update();
-        batch.begin();
-
-        for(Platform p : platformArray){
-            p.draw(batch);
-        }
-
-        stage.draw();
-//
-
-//        accXValueLabel.draw(batch);
-//        controlModeSelectButton.draw(batch, 1.0f);
-
-        batch.end();
     }
 
     @Override
