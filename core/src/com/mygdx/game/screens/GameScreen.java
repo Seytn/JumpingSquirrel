@@ -30,6 +30,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private SimpleLabel accXValueLabel;
     private ControlModeSelectButton controlModeSelectButton;
 
+    private Float averageAccX = 0.0f;
+
     public GameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         loadData();
@@ -103,7 +105,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         handleInput();
 
         labelPositionUpdate();
-        playerPositionUpdate();
+        playerYPositionUpdate();
         buttonsPositionUpdate();
 
         stage.act();
@@ -114,18 +116,23 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void handleInput() {
+        /* Accelerometer handler */
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
             accXValueLabel.setText(Float.toString(accelerometerX));
-            if(accelerometerX > 0.3 && player.getX() > 0){
-                if (accelerometerX < 0.6){
+
+            /* Weighted arithmetic mean for smooth player animation */
+            averageAccX = (accelerometerX + (7 * averageAccX) / 8);
+
+            if(averageAccX > 0.2 && player.getX() > 0){
+                if (averageAccX < 0.6){
                     player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
                     player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
                 }
             }
-            if(accelerometerX < -0.3 && player.getX() < SCREEN_X){
-                if (accelerometerX > -0.6){
+            if(averageAccX < -0.2 && player.getX() < SCREEN_X){
+                if (averageAccX > -0.6){
                     player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
                 } else {
                     player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
@@ -133,6 +140,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
         }
 
+        /* Auto jumping or manual - depends on selected jump mode */
         switch (game.jumpMode) {
             case MANUAL: {
                 if (Gdx.input.justTouched()) {
@@ -151,7 +159,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
     }
 
-    private void playerPositionUpdate() {
+    /* Handle player jumping and animation */
+    private void playerYPositionUpdate() {
         player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
 
         if(player.getY() > 0){
@@ -175,6 +184,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
     }
 
+    /* Stops falling down if on a platform */
     private boolean isPlayerOnPlatform(Platform p) {
         Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
         Rectangle rectPlatform = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
@@ -190,7 +200,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         for(Platform p : platformArray){
             p.draw(batch);
         }
-
 
         stage.draw();
 //
