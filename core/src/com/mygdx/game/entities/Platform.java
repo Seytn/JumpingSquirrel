@@ -10,7 +10,7 @@ public class Platform extends Image {
 
     public Platform (Texture texture) {
         super(texture);
-        this.setSize(texture.getWidth(), texture.getHeight());
+        this.setSize(265, 85);
     }
 
 

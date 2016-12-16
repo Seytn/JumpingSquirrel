@@ -14,12 +14,12 @@ public class Assets implements Disposable {
     public final AssetManager manager = new AssetManager();
 
     public void load(){
-        manager.load("player.png", Texture.class);
-        manager.load("toilet_closed.png", Texture.class);
-        manager.load("toilet_opened.png", Texture.class);
-        manager.load("theme.mp3",Music.class);
-        manager.load("jump.ogg",Sound.class);
-        //manager.load("endgame.ogg",Sound.class);
+        manager.load("textures/player.png", Texture.class);
+        manager.load("textures/platform.png", Texture.class);
+        manager.load("textures/grass.png", Texture.class);
+        manager.load("sounds/theme.mp3",Music.class);
+        manager.load("sounds/jump.ogg",Sound.class);
+        manager.load("sounds/gameover.mp3",Sound.class);
     }
 
     @Override

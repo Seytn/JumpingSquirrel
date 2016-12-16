@@ -26,7 +26,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     protected Array<Platform> platformArray;
     private Music music;
-    private Texture toiletClosedTexture, toiletOpenedTexture;
+    private Texture grassTexture, platformTexture;
 
     private SimpleLabel accXValueLabel;
     private ControlModeSelectButton controlModeSelectButton;
@@ -72,9 +72,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void loadData() {
-        toiletClosedTexture = game.assets.manager.get("toilet_closed.png",Texture.class);
-        toiletOpenedTexture = game.assets.manager.get("toilet_opened.png",Texture.class);
-        music = game.assets.manager.get("theme.mp3", Music.class);
+        grassTexture = game.assets.manager.get("textures/grass.png",Texture.class);
+        platformTexture = game.assets.manager.get("textures/platform.png",Texture.class);
+        music = game.assets.manager.get("sounds/theme.mp3", Music.class);
     }
 
     private void initAccXValueLabel() {
@@ -86,14 +86,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         platformArray = new Array<Platform>();
 
         for(int i = 1; i<10; i++){
-            Platform p = new Platform(toiletClosedTexture);
+            Platform p = new Platform(grassTexture);
             p.setX(MathUtils.random(380));
             p.setY(220 * i);
             platformArray.add(p);
             stage.addActor(p);
         }
 
-        Platform p = new Platform(toiletOpenedTexture);
+        Platform p = new Platform(platformTexture);
         p.setX(MathUtils.random(400));
         p.setY(220 * 10);
         platformArray.add(p);

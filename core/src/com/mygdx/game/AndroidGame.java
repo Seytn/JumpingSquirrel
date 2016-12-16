@@ -15,7 +15,7 @@ public class AndroidGame extends Game {
     public enum JumpMode {
         MANUAL, AUTO
     }
-    public final static float SCREEN_Y = 800, SCREEN_X = 480;
+    public final static float SCREEN_Y = 1024, SCREEN_X = 600;
 	public final static float GRAVITY = -20;
 
 	public Assets assets;
@@ -31,7 +31,7 @@ public class AndroidGame extends Game {
 		assets.manager.finishLoading();
 
 		if(assets.manager.update()) {
-			Texture playerTexture = assets.manager.get("player.png",Texture.class);
+			Texture playerTexture = assets.manager.get("textures/player.png",Texture.class);
 			player = new JumpPlayer(playerTexture, assets);
 
 			this.setScreen(new GameScreen(this, player));
