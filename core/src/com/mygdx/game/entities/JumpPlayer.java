@@ -28,7 +28,7 @@ public class JumpPlayer extends Image {
 
     public void jump(){
         if(canJump){
-            jumpSpeed += 1100;
+            jumpSpeed += 950;
             canJump = false;
             jumpSound.play();
             roll();

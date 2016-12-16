@@ -12,11 +12,13 @@ import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
+import com.mygdx.game.entities.Background;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
 
 import static com.mygdx.game.AndroidGame.GRAVITY;
 import static com.mygdx.game.AndroidGame.SCREEN_X;
+import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 /**
  * Created by ksikorski on 09.12.2016.
@@ -26,10 +28,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     protected Array<Platform> platformArray;
     private Music music;
-    private Texture grassTexture, platformTexture;
+    private Texture grassTexture, platformTexture, backgroundTexture;
 
     private SimpleLabel accXValueLabel;
     private ControlModeSelectButton controlModeSelectButton;
+    private Background background;
 
     private Float averageAccX = 0.0f;
 
@@ -37,12 +40,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         super(game, player);
         loadData();
         playMusic();
+        initBackground();
 
         generatePlatforms();
         initControlTypeSelectButton();
         initAccXValueLabel();
 
         stage.addActor(player);
+    }
+
+    private void initBackground() {
+        background = new Background(backgroundTexture);
+        stage.addActor(background);
     }
 
     private void playMusic() {
@@ -74,6 +83,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private void loadData() {
         grassTexture = game.assets.manager.get("textures/grass.png",Texture.class);
         platformTexture = game.assets.manager.get("textures/platform.png",Texture.class);
+        backgroundTexture = game.assets.manager.get("textures/clouds.png",Texture.class);
         music = game.assets.manager.get("sounds/theme.mp3", Music.class);
     }
 
@@ -87,15 +97,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
         for(int i = 1; i<10; i++){
             Platform p = new Platform(grassTexture);
-            p.setX(MathUtils.random(380));
-            p.setY(220 * i);
+            p.setX(MathUtils.random(580));
+            p.setY(300 * i);
             platformArray.add(p);
             stage.addActor(p);
         }
 
         Platform p = new Platform(platformTexture);
-        p.setX(MathUtils.random(400));
-        p.setY(220 * 10);
+        p.setX(MathUtils.random(600));
+        p.setY(300 * 10);
         platformArray.add(p);
         stage.addActor(p);
     }
@@ -117,12 +127,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     /* objects (images, labels, buttons etc.) position update methods */
     private void update() {
         handleInput();
+        backgroundPositionUpdate();
 
         labelPositionUpdate();
         playerYPositionUpdate();
         buttonsPositionUpdate();
 
         stage.act();
+    }
+
+    private void backgroundPositionUpdate() {
+        background.setY(camera.position.y - SCREEN_Y / 2);
+        background.setX(camera.position.x - SCREEN_X / 2);
     }
 
     private void labelPositionUpdate() {
@@ -181,7 +197,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             accXValueLabel.setText(Float.toString(accelerometerX));
 
             /* Weighted arithmetic mean for smooth player animation */
-            averageAccX = (accelerometerX + (7 * averageAccX) / 8);
+            averageAccX = (accelerometerX + (15 * averageAccX) / 16);
 
             if(averageAccX > 0.2 && player.getX() > 0){
                 if (averageAccX < 0.6){
