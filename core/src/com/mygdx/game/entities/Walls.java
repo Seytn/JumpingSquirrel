@@ -30,11 +30,11 @@ public class Walls {
         rightWall = new Image(texture);
 
         leftWall.setSize(300, 2000);
-        leftWall.setX(-270);
+        leftWall.setX(-250);
         leftWall.setY(-SCREEN_Y);
 
         rightWall.setSize(300, 1900);
-        rightWall.setX(666);
+        rightWall.setX(700);
         rightWall.setY(-SCREEN_Y);
     }
 }
