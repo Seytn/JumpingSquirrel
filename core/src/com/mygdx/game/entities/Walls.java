@@ -29,12 +29,12 @@ public class Walls {
         leftWall = new Image(texture);
         rightWall = new Image(texture);
 
-        leftWall.setSize(260, 2000);
+        leftWall.setSize(300, 2000);
         leftWall.setX(-270);
         leftWall.setY(-SCREEN_Y);
 
-        rightWall.setSize(260, 1900);
-        rightWall.setX(630);
+        rightWall.setSize(300, 1900);
+        rightWall.setX(666);
         rightWall.setY(-SCREEN_Y);
     }
 }
