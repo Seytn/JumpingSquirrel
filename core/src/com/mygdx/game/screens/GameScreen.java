@@ -13,8 +13,10 @@ import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.entities.Background;
+import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
+import com.mygdx.game.entities.Walls;
 
 import static com.mygdx.game.AndroidGame.GRAVITY;
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -26,27 +28,48 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
 
-    protected Array<Platform> platformArray;
+    private Array<Platform> platformArray;
     private Music music;
-    private Texture grassTexture, platformTexture, backgroundTexture;
+    private Texture grassTexture, platformTexture, backgroundTexture, groundTexture, logTexture;
 
-    private SimpleLabel accXValueLabel;
+    private SimpleLabel accXValueLabel, scoreLabel, bestScoreLabel;
     private ControlModeSelectButton controlModeSelectButton;
     private Background background;
+    private Ground ground;
+    private Walls walls;
+
 
     private Float averageAccX = 0.0f;
+
 
     public GameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         loadData();
         playMusic();
         initBackground();
+        initGround();
+        initWalls();
 
         generatePlatforms();
         initControlTypeSelectButton();
         initAccXValueLabel();
 
+        initScoreLabel();
+        initBestScoreLabel();
+
+
         stage.addActor(player);
+    }
+
+    private void initWalls() {
+        walls = new Walls(logTexture, stage);
+        stage.addActor(walls.leftWall);
+        stage.addActor(walls.rightWall);
+    }
+
+    private void initGround() {
+        ground = new Ground(groundTexture);
+        stage.addActor(ground);
     }
 
     private void initBackground() {
@@ -84,12 +107,25 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         grassTexture = game.assets.manager.get("textures/grass.png",Texture.class);
         platformTexture = game.assets.manager.get("textures/platform.png",Texture.class);
         backgroundTexture = game.assets.manager.get("textures/clouds.png",Texture.class);
+        groundTexture = game.assets.manager.get("textures/grass2.png",Texture.class);
+        logTexture = game.assets.manager.get("textures/log.png",Texture.class);
+
         music = game.assets.manager.get("sounds/theme.mp3", Music.class);
     }
 
     private void initAccXValueLabel() {
         accXValueLabel = new SimpleLabel("");
         stage.addActor(accXValueLabel);
+    }
+
+    private void initScoreLabel() {
+        scoreLabel = new SimpleLabel("");
+        stage.addActor(scoreLabel);
+    }
+
+    private void initBestScoreLabel() {
+        bestScoreLabel = new SimpleLabel("");
+        stage.addActor(bestScoreLabel);
     }
 
     private void generatePlatforms() {
@@ -119,33 +155,44 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         batch.begin();
         stage.draw();
         batch.end();
-
-//        controlModeSelectButton.draw(batch, 1.0f);
-
     }
 
     /* objects (images, labels, buttons etc.) position update methods */
     private void update() {
         handleInput();
-        backgroundPositionUpdate();
+        updateScoreLabel();
 
-        labelPositionUpdate();
+        backgroundPositionUpdate();
+        wallsPositionUpdate();
+        labelsPositionUpdate();
         playerYPositionUpdate();
         buttonsPositionUpdate();
 
         stage.act();
     }
 
+    private void wallsPositionUpdate() {
+//        walls.leftWall.setX(camera.position.x - SCREEN_X / 2);
+        walls.leftWall.setY(camera.position.y - SCREEN_Y);
+//        walls.rightWall.setX(camera.position.x - SCREEN_X / 2);
+        walls.rightWall.setY(camera.position.y - SCREEN_Y);
+    }
+
+    private void updateScoreLabel() {
+        scoreLabel.setText("Score: " + game.scoreService.getPoints());
+        bestScoreLabel.setText("Your best: " + game.scoreService.getBestScore());
+    }
+
     private void backgroundPositionUpdate() {
-        background.setY(camera.position.y - SCREEN_Y / 2);
         background.setX(camera.position.x - SCREEN_X / 2);
+        background.setY(camera.position.y - SCREEN_Y / 2);
     }
 
-    private void labelPositionUpdate() {
-        accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 350);
+    private void labelsPositionUpdate() {
+        accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 400);
+        scoreLabel.setPosition(camera.position.x - 280, camera.position.y + 460);
+        bestScoreLabel.setPosition(camera.position.x - 280, camera.position.y + 425);
     }
-
-
 
     private void buttonsPositionUpdate() {
 		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);

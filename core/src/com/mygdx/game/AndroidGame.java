@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.assets.Assets;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.services.ScoreService;
 
 public class AndroidGame extends Game {
 
@@ -19,9 +20,9 @@ public class AndroidGame extends Game {
 	public final static float GRAVITY = -20;
 
 	public Assets assets;
-	public JumpPlayer player;
+	public ScoreService scoreService;
 
-    public ControlMode controlMode = ControlMode.ACCELEROMETER;
+	public ControlMode controlMode = ControlMode.ACCELEROMETER;
 	public JumpMode jumpMode = JumpMode.MANUAL;
 
 	@Override
@@ -31,10 +32,10 @@ public class AndroidGame extends Game {
 		assets.manager.finishLoading();
 
 		if(assets.manager.update()) {
-			Texture playerTexture = assets.manager.get("textures/player.png",Texture.class);
-			player = new JumpPlayer(playerTexture, assets);
-
-			this.setScreen(new GameScreen(this, player));
+            scoreService = new ScoreService();
+            Texture playerTexture = assets.manager.get("textures/player.png",Texture.class);
+            JumpPlayer player = new JumpPlayer(playerTexture, assets);
+            this.setScreen(new GameScreen(this, player));
         }
 	}
 }

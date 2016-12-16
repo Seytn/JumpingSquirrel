@@ -21,10 +21,10 @@ class AbstractScreen implements Screen {
 
     protected AndroidGame game;
 
-    public Stage stage;
-    public OrthographicCamera camera;
-    public SpriteBatch batch;
-    public JumpPlayer player;
+    Stage stage;
+    OrthographicCamera camera;
+    SpriteBatch batch;
+    JumpPlayer player;
 
     AbstractScreen(AndroidGame game, JumpPlayer player) {
         this.game = game;
@@ -43,7 +43,7 @@ class AbstractScreen implements Screen {
     }
 
     private void clearScreen(){
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+        Gdx.gl.glClearColor(0.8f, 0.8f, 0f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
@@ -85,6 +85,8 @@ class AbstractScreen implements Screen {
 
     @Override
     public void dispose() {
+        batch.dispose();
+        stage.dispose();
         game.dispose();
     }
 }
