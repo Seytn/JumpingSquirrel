@@ -19,11 +19,11 @@ public class JumpPlayer extends Image {
 
     public float jumpSpeed;
 
-    public JumpPlayer(Texture texture, Assets assets) {
+    public JumpPlayer(Texture texture) {
         super(texture);
         this.setSize(texture.getWidth() / 5, texture.getHeight() / 5);
         this.setOrigin(this.getWidth() / 2, this.getHeight() / 2);
-        jumpSound = assets.manager.get("sounds/jump.ogg",Sound.class);
+        jumpSound = Assets.assetManager.get("sounds/jump.ogg",Sound.class);
     }
 
     public void jump(){

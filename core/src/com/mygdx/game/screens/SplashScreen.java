@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.AndroidGame;
+import com.mygdx.game.assets.Assets;
 import com.mygdx.game.entities.JumpPlayer;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -18,7 +19,6 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 public class SplashScreen extends AbstractScreen {
 
     private Texture splashImg;
-    private Button button;
 
     public SplashScreen(final AndroidGame game, final JumpPlayer player) {
         super(game, player);
@@ -33,10 +33,10 @@ public class SplashScreen extends AbstractScreen {
     }
 
     private void init() {
-        //TODO implement assets manager
-        splashImg = new Texture("textures/background_splash.png");
+        //TODO implement assets assetManager
+        splashImg = Assets.assetManager.get("textures/background_splash.png", Texture.class);
 
-        button = new Button();
+        Button button = new Button();
         button.setWidth(SCREEN_X);
         button.setHeight(SCREEN_Y);
         button.setX(0);

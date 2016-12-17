@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
@@ -17,6 +15,7 @@ import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
 import com.mygdx.game.entities.Walls;
+import com.mygdx.game.services.PlatformService;
 
 import static com.mygdx.game.AndroidGame.GRAVITY;
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -28,9 +27,13 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
 
-    private Array<Platform> platformArray;
+    private PlatformService platformService;
     private Music music;
-    private Texture grassTexture, platformTexture, backgroundTexture, groundTexture, logTexture;
+    public Texture grassTexture;
+    public Texture platformTexture;
+    private Texture backgroundTexture;
+    private Texture groundTexture;
+    private Texture logTexture;
 
     private SimpleLabel accXValueLabel, scoreLabel, bestScoreLabel;
     private ControlModeSelectButton controlModeSelectButton;
@@ -52,7 +55,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initGround();
         initWalls();
 
-        generatePlatforms();
+        initPlatformService();
+//        generatePlatforms();
         initControlTypeSelectButton();
         initAccXValueLabel();
 
@@ -61,6 +65,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
 
         stage.addActor(player);
+    }
+
+    private void initPlatformService() {
+        platformService = new PlatformService();
     }
 
     private void initWalls() {
@@ -106,13 +114,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void loadData() {
-        grassTexture = game.assets.manager.get("textures/grass.png",Texture.class);
-        platformTexture = game.assets.manager.get("textures/platform.png",Texture.class);
-        backgroundTexture = game.assets.manager.get("textures/clouds.png",Texture.class);
-        groundTexture = game.assets.manager.get("textures/grass2.png",Texture.class);
-        logTexture = game.assets.manager.get("textures/log.png",Texture.class);
+        grassTexture = game.assets.assetManager.get("textures/grass.png",Texture.class);
+        platformTexture = game.assets.assetManager.get("textures/platform.png",Texture.class);
+        backgroundTexture = game.assets.assetManager.get("textures/clouds.png",Texture.class);
+        groundTexture = game.assets.assetManager.get("textures/grass2.png",Texture.class);
+        logTexture = game.assets.assetManager.get("textures/log.png",Texture.class);
 
-        music = game.assets.manager.get("sounds/theme.mp3", Music.class);
+        music = game.assets.assetManager.get("sounds/theme.mp3", Music.class);
     }
 
     private void initAccXValueLabel() {
@@ -130,23 +138,23 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         stage.addActor(bestScoreLabel);
     }
 
-    private void generatePlatforms() {
-        platformArray = new Array<Platform>();
-
-        for(int i = 1; i<10; i++){
-            Platform p = new Platform(grassTexture);
-            p.setX(MathUtils.random(580));
-            p.setY(300 * i);
-            platformArray.add(p);
-            stage.addActor(p);
-        }
-
-        Platform p = new Platform(platformTexture);
-        p.setX(MathUtils.random(600));
-        p.setY(300 * 10);
-        platformArray.add(p);
-        stage.addActor(p);
-    }
+//    private void generatePlatforms() {
+//        platformArray = new Array<Platform>();
+//
+//        for(int i = 1; i<10; i++){
+//            Platform p = new Platform(grassTexture);
+//            p.setX(MathUtils.random(580));
+//            p.setY(300 * i);
+//            platformArray.add(p);
+//            stage.addActor(p);
+//        }
+//
+//        Platform p = new Platform(platformTexture);
+//        p.setX(MathUtils.random(600));
+//        p.setY(300 * 10);
+//        platformArray.add(p);
+//        stage.addActor(p);
+//    }
 
     /* Main render method */
     @Override
@@ -210,9 +218,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             player.jumpSpeed = 0;
         }
 
-        for (Platform p : platformArray){
+        for (Platform p : platformService.platformArray){
             if(player.getY() - p.getY() > 1000) {
-                platformArray.removeValue(p, true);
+                platformService.platformArray.removeValue(p, true);
                 p.addAction(Actions.removeActor());
                 break;
             }

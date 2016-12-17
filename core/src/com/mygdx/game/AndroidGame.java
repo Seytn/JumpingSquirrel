@@ -19,7 +19,6 @@ public class AndroidGame extends Game {
     public final static float SCREEN_Y = 1024, SCREEN_X = 600;
 	public final static float GRAVITY = -20;
 
-	public Assets assets;
 	public ScoreService scoreService;
 
 	public ControlMode controlMode = ControlMode.ACCELEROMETER;
@@ -27,14 +26,13 @@ public class AndroidGame extends Game {
 
 	@Override
 	public void create () {
-		assets = new Assets();
-		assets.load();
-		assets.manager.finishLoading();
+		Assets.loadData();
+		Assets.assetManager.finishLoading();
         initScoreService();
 
-		if(assets.manager.update()) {
-            Texture playerTexture = assets.manager.get("textures/player.png",Texture.class);
-            JumpPlayer player = new JumpPlayer(playerTexture, assets);
+		if(Assets.assetManager.update()) {
+            Texture playerTexture = Assets.assetManager.get("textures/player.png",Texture.class);
+            JumpPlayer player = new JumpPlayer(playerTexture);
             this.setScreen(new SplashScreen(this, player));
         }
 	}
