@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  */
 public class Platform extends Image {
 
+    public boolean reached = false;
+
     public Platform (Texture texture) {
         super(texture);
         this.setSize(265, 85);

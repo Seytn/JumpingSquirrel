@@ -172,9 +172,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void wallsPositionUpdate() {
-//        walls.leftWall.setX(camera.position.x - SCREEN_X / 2);
         walls.leftWall.setY(camera.position.y - SCREEN_Y);
-//        walls.rightWall.setX(camera.position.x - SCREEN_X / 2);
         walls.rightWall.setY(camera.position.y - SCREEN_Y);
     }
 
@@ -218,6 +216,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
 
             if(isPlayerOnPlatform(p)){
+                addPlatformPoints(p);
                 player.setY(p.getY() + p.getHeight()-10);
                 player.canJump = true;
                 player.jumpSpeed = 0;
@@ -226,6 +225,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
                 }
             }
+        }
+    }
+
+    private void addPlatformPoints(Platform p) {
+        if (!p.reached) {
+            game.scoreService.addPlatforPoints();
+            p.reached = true;
         }
     }
 

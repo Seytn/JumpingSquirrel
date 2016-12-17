@@ -32,7 +32,7 @@ public class ScoreService {
     }
 
     public void addPlatforPoints() {
-        points += 10;
+        points += 1;
     }
 
     public void resetScore() {
