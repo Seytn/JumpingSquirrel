@@ -61,7 +61,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initScoreLabel();
         initBestScoreLabel();
 
-
         stage.addActor(player);
     }
 
