@@ -11,9 +11,10 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class Assets implements Disposable {
 
-    public static final AssetManager assetManager = new AssetManager();
+    public static final Assets sharedInstance = new Assets();
+    public final AssetManager assetManager = new AssetManager();
 
-    public static void loadData(){
+    public void loadData(){
         assetManager.load("textures/player.png", Texture.class);
         assetManager.load("textures/platform.png", Texture.class);
         assetManager.load("textures/grass.png", Texture.class);

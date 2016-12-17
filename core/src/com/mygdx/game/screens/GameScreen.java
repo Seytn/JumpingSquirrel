@@ -10,6 +10,7 @@ import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
+import com.mygdx.game.assets.Assets;
 import com.mygdx.game.entities.Background;
 import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
@@ -26,6 +27,8 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
  */
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
+
+    Boolean generated = false;
 
     private PlatformService platformService;
     private Music music;
@@ -49,7 +52,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         super(game, player);
         game.scoreService.resetScore();
 
-        loadData();
+        assignDataToVariables();
         playMusic();
         initBackground();
         initGround();
@@ -68,7 +71,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     private void initPlatformService() {
-        platformService = new PlatformService();
+        platformService = new PlatformService(this, stage);
     }
 
     private void initWalls() {
@@ -113,14 +116,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         });
     }
 
-    private void loadData() {
-        grassTexture = game.assets.assetManager.get("textures/grass.png",Texture.class);
-        platformTexture = game.assets.assetManager.get("textures/platform.png",Texture.class);
-        backgroundTexture = game.assets.assetManager.get("textures/clouds.png",Texture.class);
-        groundTexture = game.assets.assetManager.get("textures/grass2.png",Texture.class);
-        logTexture = game.assets.assetManager.get("textures/log.png",Texture.class);
+    private void assignDataToVariables() {
+        grassTexture = Assets.sharedInstance.assetManager.get("textures/grass.png",Texture.class);
+        platformTexture = Assets.sharedInstance.assetManager.get("textures/platform.png",Texture.class);
+        backgroundTexture = Assets.sharedInstance.assetManager.get("textures/clouds.png",Texture.class);
+        groundTexture = Assets.sharedInstance.assetManager.get("textures/grass2.png",Texture.class);
+        logTexture = Assets.sharedInstance.assetManager.get("textures/log.png",Texture.class);
 
-        music = game.assets.assetManager.get("sounds/theme.mp3", Music.class);
+        music = Assets.sharedInstance.assetManager.get("sounds/theme.mp3", Music.class);
     }
 
     private void initAccXValueLabel() {
@@ -137,24 +140,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         bestScoreLabel = new SimpleLabel("");
         stage.addActor(bestScoreLabel);
     }
-
-//    private void generatePlatforms() {
-//        platformArray = new Array<Platform>();
-//
-//        for(int i = 1; i<10; i++){
-//            Platform p = new Platform(grassTexture);
-//            p.setX(MathUtils.random(580));
-//            p.setY(300 * i);
-//            platformArray.add(p);
-//            stage.addActor(p);
-//        }
-//
-//        Platform p = new Platform(platformTexture);
-//        p.setX(MathUtils.random(600));
-//        p.setY(300 * 10);
-//        platformArray.add(p);
-//        stage.addActor(p);
-//    }
 
     /* Main render method */
     @Override
@@ -230,10 +215,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 player.setY(p.getY() + p.getHeight()-10);
                 player.canJump = true;
                 player.jumpSpeed = 0;
-                if (player.getY() >= 250 * 10){
-//                    endGame();
+            }
 
-                }
+            if (player.getY() >= 300 * 19 && !generated){
+                platformService.generateMorePlatforms();
+                generated = true;
             }
         }
     }

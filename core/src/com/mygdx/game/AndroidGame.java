@@ -26,12 +26,12 @@ public class AndroidGame extends Game {
 
 	@Override
 	public void create () {
-		Assets.loadData();
-		Assets.assetManager.finishLoading();
+		Assets.sharedInstance.loadData();
+		Assets.sharedInstance.assetManager.finishLoading();
         initScoreService();
 
-		if(Assets.assetManager.update()) {
-            Texture playerTexture = Assets.assetManager.get("textures/player.png",Texture.class);
+		if(Assets.sharedInstance.assetManager.update()) {
+            Texture playerTexture = Assets.sharedInstance.assetManager.get("textures/player.png",Texture.class);
             JumpPlayer player = new JumpPlayer(playerTexture);
             this.setScreen(new SplashScreen(this, player));
         }

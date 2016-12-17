@@ -5,4 +5,10 @@ package com.mygdx.game.entities;
  */
 
 public class Checkpoint {
+
+    int value;
+    Boolean reached = false;
+
+    public Checkpoint() {
+    }
 }
