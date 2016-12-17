@@ -28,12 +28,9 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
 
-    Boolean generated = false;
-
     private PlatformService platformService;
     private Music music;
     public Texture grassTexture;
-    public Texture platformTexture;
     private Texture backgroundTexture;
     private Texture groundTexture;
     private Texture logTexture;
@@ -43,7 +40,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private Background background;
     private Ground ground;
     private Walls walls;
-
 
     private Float averageAccX = 0.0f;
 
@@ -59,7 +55,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initWalls();
 
         initPlatformService();
-//        generatePlatforms();
         initControlTypeSelectButton();
         initAccXValueLabel();
 
@@ -118,7 +113,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void assignDataToVariables() {
         grassTexture = Assets.sharedInstance.assetManager.get("textures/grass.png",Texture.class);
-        platformTexture = Assets.sharedInstance.assetManager.get("textures/platform.png",Texture.class);
         backgroundTexture = Assets.sharedInstance.assetManager.get("textures/clouds.png",Texture.class);
         groundTexture = Assets.sharedInstance.assetManager.get("textures/grass2.png",Texture.class);
         logTexture = Assets.sharedInstance.assetManager.get("textures/log.png",Texture.class);
@@ -203,6 +197,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             player.jumpSpeed = 0;
         }
 
+        platformService.generateMorePlatforms();
+
         for (Platform p : platformService.platformArray){
             if(player.getY() - p.getY() > 1000) {
                 platformService.platformArray.removeValue(p, true);
@@ -216,12 +212,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 player.canJump = true;
                 player.jumpSpeed = 0;
             }
-
-            if (player.getY() >= 300 * 19 && !generated){
-                platformService.generateMorePlatforms();
-                generated = true;
-            }
         }
+
     }
 
     private void addPlatformPoints(Platform p) {
