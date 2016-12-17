@@ -19,7 +19,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 class AbstractScreen implements Screen {
 
-    protected AndroidGame game;
+    protected final AndroidGame game;
 
     Stage stage;
     OrthographicCamera camera;

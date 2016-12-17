@@ -29,10 +29,18 @@ public class ScoreService {
 
     public void addPoints(int points) {
         points += points;
+        checkIfBestScore();
     }
 
     public void addPlatforPoints() {
         points += 1;
+        checkIfBestScore();
+    }
+
+    private void checkIfBestScore() {
+        if (points > bestScore) {
+            bestScore = points;
+        }
     }
 
     public void resetScore() {

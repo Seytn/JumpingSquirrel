@@ -44,6 +44,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     public GameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
+        game.scoreService.resetScore();
+
         loadData();
         playMusic();
         initBackground();

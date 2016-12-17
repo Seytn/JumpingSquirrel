@@ -14,6 +14,4 @@ public class Platform extends Image {
         super(texture);
         this.setSize(265, 85);
     }
-
-
 }
