@@ -24,6 +24,8 @@ public class AndroidGame extends Game {
 	public ControlMode controlMode = ControlMode.ACCELEROMETER;
 	public JumpMode jumpMode = JumpMode.MANUAL;
 
+    public Texture playerTexture;
+
 	@Override
 	public void create () {
 		Assets.sharedInstance.loadData();
@@ -31,7 +33,7 @@ public class AndroidGame extends Game {
         initScoreService();
 
 		if(Assets.sharedInstance.assetManager.update()) {
-            Texture playerTexture = Assets.sharedInstance.assetManager.get("textures/player.png",Texture.class);
+            playerTexture = Assets.sharedInstance.assetManager.get("textures/player.png",Texture.class);
             JumpPlayer player = new JumpPlayer(playerTexture);
             this.setScreen(new SplashScreen(this, player));
         }

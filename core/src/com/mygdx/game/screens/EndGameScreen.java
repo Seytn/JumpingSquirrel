@@ -13,29 +13,25 @@ import static com.mygdx.game.AndroidGame.SCREEN_X;
 import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 /**
- * Created by ksikorski on 17.12.2016.
+ * Created by Kamil on 2016-12-18.
  */
 
-public class SplashScreen extends AbstractScreen {
+public class EndGameScreen extends AbstractScreen {
 
     private Texture splashImg;
 
-    public SplashScreen(final AndroidGame game, final JumpPlayer player) {
+    EndGameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         init();
-//
-//        Timer.schedule(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                game.setScreen(new GameScreen(game, player));
-//            }
-//        },3.5f);
     }
 
     private void init() {
         //TODO implement assets assetManager
         splashImg = Assets.sharedInstance.assetManager.get("textures/background_splash.png", Texture.class);
+        initRetryButton();
+    }
 
+    private void initRetryButton() {
         Button button = new Button();
         button.setWidth(SCREEN_X);
         button.setHeight(SCREEN_Y);
@@ -47,7 +43,7 @@ public class SplashScreen extends AbstractScreen {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        game.setScreen(new MainMenuScreen(game, player));
+                        game.setScreen(new GameScreen(game, player));
                     }
                 },0.2f);
                 return super.touchDown(event, x, y, pointer, button);
