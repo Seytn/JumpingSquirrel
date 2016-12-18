@@ -33,8 +33,7 @@ public class SplashScreen extends AbstractScreen {
     }
 
     private void init() {
-        //TODO implement assets assetManager
-        splashImg = Assets.sharedInstance.assetManager.get("textures/background_splash.png", Texture.class);
+        splashImg = Assets.sharedInstance.assetManager.get("textures/splashScreen.png", Texture.class);
 
         Button button = new Button();
         button.setWidth(SCREEN_X);

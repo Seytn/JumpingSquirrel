@@ -18,7 +18,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class EndGameScreen extends AbstractScreen {
 
-    private Texture splashImg;
+    private Texture endGameImg;
 
     EndGameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
@@ -26,8 +26,7 @@ public class EndGameScreen extends AbstractScreen {
     }
 
     private void init() {
-        //TODO implement assets assetManager
-        splashImg = Assets.sharedInstance.assetManager.get("textures/background_splash.png", Texture.class);
+        endGameImg = Assets.sharedInstance.assetManager.get("textures/endGameScreen.png", Texture.class);
         initRetryButton();
     }
 
@@ -56,7 +55,7 @@ public class EndGameScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(splashImg, camera.position.x - AndroidGame.SCREEN_X / 2, camera.position.y - AndroidGame.SCREEN_Y / 2, SCREEN_X, SCREEN_Y);
+        batch.draw(endGameImg, camera.position.x - AndroidGame.SCREEN_X / 2, camera.position.y - AndroidGame.SCREEN_Y / 2, SCREEN_X, SCREEN_Y);
         batch.end();
     }
 }

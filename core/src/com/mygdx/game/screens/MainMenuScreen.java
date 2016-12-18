@@ -26,8 +26,7 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     private void init() {
-        //TODO implement assets assetManager
-        menuImg = Assets.sharedInstance.assetManager.get("textures/background_splash.png", Texture.class);
+        menuImg = Assets.sharedInstance.assetManager.get("textures/mainMenuScreen.png", Texture.class);
         initExitButton();
         initNewGameButton();
         initHighScoreButton();

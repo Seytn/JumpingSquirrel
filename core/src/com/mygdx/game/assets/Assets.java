@@ -21,7 +21,9 @@ public class Assets implements Disposable {
         assetManager.load("textures/grass2.png", Texture.class);
         assetManager.load("textures/clouds.png", Texture.class);
         assetManager.load("textures/log.png", Texture.class);
-        assetManager.load("textures/background_splash.png", Texture.class);
+        assetManager.load("textures/splashScreen.png", Texture.class);
+        assetManager.load("textures/mainMenuScreen.png", Texture.class);
+        assetManager.load("textures/endGameScreen.png", Texture.class);
 
         assetManager.load("sounds/theme.mp3",Music.class);
         assetManager.load("sounds/jump.ogg",Sound.class);
