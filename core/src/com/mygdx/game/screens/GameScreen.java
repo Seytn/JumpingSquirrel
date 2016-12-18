@@ -139,6 +139,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public void render(float delta) {
         super.render(delta);
         update();
+        checkPlatformAndPlayerDependencies();
+        checkIfPlayerFellTooLow();
 
         batch.begin();
         stage.draw();
@@ -153,7 +155,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         backgroundPositionUpdate();
         wallsPositionUpdate();
         labelsPositionUpdate();
-        playerYPositionUpdate();
+        playerJumpPositionUpdate();
         buttonsPositionUpdate();
 
         stage.act();
@@ -185,7 +187,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     /* Handle player jumping animation */
-    private void playerYPositionUpdate() {
+    private void playerJumpPositionUpdate() {
         player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
 
         if(player.getY() > 0){
@@ -196,10 +198,14 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             player.jumpSpeed = 0;
         }
 
+        player.setGreatestHeight(player.getY());
+    }
+
+    private void checkPlatformAndPlayerDependencies() {
         platformService.generateMorePlatforms();
 
         for (Platform p : platformService.platformArray){
-            if(player.getY() - p.getY() > 1000) {
+            if(player.getY() - p.getY() > 600) {
                 platformService.platformArray.removeValue(p, true);
                 p.addAction(Actions.removeActor());
                 break;
@@ -212,7 +218,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 player.jumpSpeed = 0;
             }
         }
+    }
 
+    private void checkIfPlayerFellTooLow() {
+        if (player.getGreatestHeight() - player.getY() > 800){
+            System.out.println("end game");
+        }
     }
 
     private void addPlatformPoints(Platform p) {

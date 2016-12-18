@@ -19,6 +19,8 @@ public class JumpPlayer extends Image {
 
     public float jumpSpeed;
 
+    private float greatestHeight = 0;
+
     public JumpPlayer(Texture texture) {
         super(texture);
         this.setSize(texture.getWidth() / 5, texture.getHeight() / 5);
@@ -47,4 +49,13 @@ public class JumpPlayer extends Image {
         this.addAction(roll);
     }
 
+    public float getGreatestHeight() {
+        return greatestHeight;
+    }
+
+    public void setGreatestHeight(float greatestHeight) {
+        if (greatestHeight > this.greatestHeight){
+            this.greatestHeight = greatestHeight;
+        }
+    }
 }
