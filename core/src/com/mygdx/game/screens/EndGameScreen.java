@@ -36,7 +36,7 @@ public class EndGameScreen extends AbstractScreen {
         Button button = new Button();
         button.setWidth(SCREEN_X);
         button.setHeight(100);
-        button.setX(0);
+        button.setX(-SCREEN_X / 2);
         button.setY(630 - CAMERA_Y_DIFFERENCE);
         button.addListener(new ClickListener(){
             @Override
@@ -57,7 +57,7 @@ public class EndGameScreen extends AbstractScreen {
         Button mainMenuButton = new Button();
         mainMenuButton.setWidth(SCREEN_X);
         mainMenuButton.setHeight(90);
-        mainMenuButton.setX(0);
+        mainMenuButton.setX(-SCREEN_X / 2);
         mainMenuButton.setY(500 - CAMERA_Y_DIFFERENCE);
         mainMenuButton.addListener(new ClickListener(){
             @Override
@@ -73,7 +73,7 @@ public class EndGameScreen extends AbstractScreen {
         Button exitButton = new Button();
         exitButton.setWidth(SCREEN_X);
         exitButton.setHeight(90);
-        exitButton.setX(0);
+        exitButton.setX(-SCREEN_X / 2);
         exitButton.setY(340 - CAMERA_Y_DIFFERENCE);
         exitButton.addListener(new ClickListener(){
             @Override

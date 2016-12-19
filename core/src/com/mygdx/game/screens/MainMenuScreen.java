@@ -56,7 +56,7 @@ public class MainMenuScreen extends AbstractScreen {
         settingsButton = new Button();
         settingsButton.setWidth(SCREEN_X);
         settingsButton.setHeight(90);
-        settingsButton.setX(0);
+        settingsButton.setX(-SCREEN_X / 2);
         settingsButton.setY(510 - CAMERA_Y_DIFFERENCE);
         settingsButton.addListener(new ClickListener() {
             @Override
@@ -72,7 +72,7 @@ public class MainMenuScreen extends AbstractScreen {
         startGameButton = new Button();
         startGameButton.setWidth(SCREEN_X);
         startGameButton.setHeight(100);
-        startGameButton.setX(0);
+        startGameButton.setX(-SCREEN_X / 2);
         startGameButton.setY(630 - CAMERA_Y_DIFFERENCE);
         startGameButton.addListener(new ClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class MainMenuScreen extends AbstractScreen {
         exitButton = new Button();
         exitButton.setWidth(SCREEN_X);
         exitButton.setHeight(90);
-        exitButton.setX(0);
+        exitButton.setX(-SCREEN_X / 2);
         exitButton.setY(340 - CAMERA_Y_DIFFERENCE);
         exitButton.addListener(new ClickListener() {
             @Override
@@ -109,7 +109,7 @@ public class MainMenuScreen extends AbstractScreen {
         highScoreButton = new Button();
         highScoreButton.setWidth(SCREEN_X);
         highScoreButton.setHeight(90);
-        highScoreButton.setX(0);
+        highScoreButton.setX(-SCREEN_X / 2);
         highScoreButton.setY(420 - CAMERA_Y_DIFFERENCE);
         highScoreButton.addListener(new ClickListener() {
             @Override

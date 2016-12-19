@@ -27,7 +27,7 @@ public class SimpleLabel extends Label{
 
     private static LabelStyle labelStyle(Color color) {
         BitmapFont bitmapFont = new BitmapFont();
-        bitmapFont.getData().setScale(2.0f);
+        bitmapFont.getData().setScale(2.3f);
         return new LabelStyle(bitmapFont, color);
     }
 }

@@ -33,7 +33,7 @@ public class SettingsScreen extends AbstractScreen {
         Button mainMenuButton = new Button();
         mainMenuButton.setWidth(SCREEN_X);
         mainMenuButton.setHeight(90);
-        mainMenuButton.setX(0);
+        mainMenuButton.setX(-SCREEN_X / 2);
         mainMenuButton.setY(150 - CAMERA_Y_DIFFERENCE);
         mainMenuButton.addListener(new ClickListener(){
             @Override

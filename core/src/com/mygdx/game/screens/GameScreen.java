@@ -210,6 +210,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private void checkIfPlayerFellTooLow() {
         if (player.getGreatestHeight() - player.getY() > 800){
+            game.scoreService.saveScore();
             game.setScreen(new EndGameScreen(game, new JumpPlayer(game.playerTexture)));
         }
     }

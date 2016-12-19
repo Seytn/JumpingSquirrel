@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.SimpleLabel;
@@ -48,21 +49,27 @@ public class HighScoresScreen extends AbstractScreen {
     }
 
     private void initScores() {
-        for (int i = 1; i <= 10; i++) {
-            SimpleLabel score = new SimpleLabel(i + ". " + i * 23, Color.BROWN);
-            score.setY(790 - i * 50);
+        Array<Integer> scores = game.scoreService.getBestScores();
+
+        int arraySize = scores.size;
+        if (arraySize <= 0) return;
+        for (int i = 0; i < arraySize; i++) {
+            if (i >= 10) break;
+            SimpleLabel score = new SimpleLabel((i) + ". " + scores.get(i), Color.GOLD);
+            score.setY(790 - (i + 1) * 60);
             score.setX(100);
             second.addActor(score);
         }
+
     }
 
     private void initMainMenuButton() {
         Button mainMenuButton = new Button();
         mainMenuButton.setWidth(SCREEN_X);
         mainMenuButton.setHeight(90);
-        mainMenuButton.setX(0);
+        mainMenuButton.setX(-SCREEN_X / 2);
         mainMenuButton.setY(150 - CAMERA_Y_DIFFERENCE);
-        mainMenuButton.addListener(new ClickListener(){
+        mainMenuButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new MainMenuScreen(game, player));

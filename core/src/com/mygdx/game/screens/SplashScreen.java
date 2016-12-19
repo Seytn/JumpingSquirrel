@@ -38,8 +38,8 @@ public class SplashScreen extends AbstractScreen {
         Button button = new Button();
         button.setWidth(SCREEN_X);
         button.setHeight(SCREEN_Y);
-        button.setX(0);
-        button.setY(0);
+        button.setX(-SCREEN_X / 2);
+        button.setY(-CAMERA_Y_DIFFERENCE);
         button.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
