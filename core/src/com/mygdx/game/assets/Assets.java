@@ -17,7 +17,6 @@ public class Assets implements Disposable {
     public void loadData(){
         //GAMEPLAY SCREEN
         assetManager.load("textures/player.png", Texture.class);
-        assetManager.load("textures/platform.png", Texture.class);
         assetManager.load("textures/grass.png", Texture.class);
         assetManager.load("textures/grass2.png", Texture.class);
         assetManager.load("textures/clouds.png", Texture.class);

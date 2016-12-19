@@ -24,7 +24,7 @@ public class ScoreService {
     private int points = 0;
     private int bestScore = 0;
 
-    Json json = new Json();
+    private Json json = new Json();
 
 
     public Array<Integer> getBestScores() {
@@ -32,7 +32,7 @@ public class ScoreService {
     }
 
     private Array<Integer> bestScores = new Array<Integer>();
-    Hashtable<String, String> hashTable = new Hashtable<String, String>();
+    private Hashtable<String, String> hashTable = new Hashtable<String, String>();
 
 
     public ScoreService() {
@@ -71,8 +71,10 @@ public class ScoreService {
     }
 
     public void saveScore(){
-        bestScores.add(points);
-        bestScores.sort(Collections.reverseOrder());
+        if (points > 0 ) {
+            bestScores.add(points);
+            bestScores.sort(Collections.reverseOrder());
+        }
     }
 
     public void resetScore() {
@@ -82,9 +84,9 @@ public class ScoreService {
     public void updateSavedScore() {
         prefs.putInteger(GAME_SCORE, points);
         prefs.putInteger(GAME_BEST, bestScore);
-
-        hashTable.put(GAME_TOP_SCORES, json.toJson(bestScores));
-        prefs.put(hashTable);
+        prefs.putString(GAME_TOP_SCORES, json.toJson(bestScores));
+//        hashTable.put(GAME_TOP_SCORES, json.toJson(bestScores));
+//        prefs.put(hashTable);
         prefs.flush();
     }
 

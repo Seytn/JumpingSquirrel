@@ -55,7 +55,7 @@ public class HighScoresScreen extends AbstractScreen {
         if (arraySize <= 0) return;
         for (int i = 0; i < arraySize; i++) {
             if (i >= 10) break;
-            SimpleLabel score = new SimpleLabel((i) + ". " + scores.get(i), Color.GOLD);
+            SimpleLabel score = new SimpleLabel((i + 1) + ". " + scores.get(i), Color.GOLD);
             score.setY(790 - (i + 1) * 60);
             score.setX(100);
             second.addActor(score);
@@ -83,7 +83,6 @@ public class HighScoresScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-//        batch.draw(listImg, camera.position.x - AndroidGame.SCREEN_X / 2, camera.position.y - AndroidGame.SCREEN_Y / 2, SCREEN_X, SCREEN_Y);
         second.draw();
         batch.end();
     }

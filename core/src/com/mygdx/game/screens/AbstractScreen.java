@@ -71,7 +71,6 @@ public class AbstractScreen implements Screen {
 
     @Override
     public void pause() {
-        game.scoreService.saveScore();
         game.scoreService.updateSavedScore();
     }
 

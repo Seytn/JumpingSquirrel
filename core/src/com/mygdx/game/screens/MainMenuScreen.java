@@ -30,6 +30,7 @@ public class MainMenuScreen extends AbstractScreen {
     MainMenuScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         init();
+        game.scoreService.updateSavedScore();
     }
 
     private void init() {
@@ -98,6 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
         exitButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.scoreService.updateSavedScore();
                 System.exit(0);
                 return super.touchDown(event, x, y, pointer, button);
             }
