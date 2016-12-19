@@ -15,7 +15,17 @@ public class SimpleLabel extends Label{
         super(text, labelStyle());
     }
 
+    public SimpleLabel(CharSequence text, Color color) {
+        super(text, labelStyle(color));
+    }
+
     private static LabelStyle labelStyle() {
+        BitmapFont bitmapFont = new BitmapFont();
+        bitmapFont.getData().setScale(2.0f);
+        return new LabelStyle(bitmapFont, color);
+    }
+
+    private static LabelStyle labelStyle(Color color) {
         BitmapFont bitmapFont = new BitmapFont();
         bitmapFont.getData().setScale(2.0f);
         return new LabelStyle(bitmapFont, color);

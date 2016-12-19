@@ -1,11 +1,16 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.mygdx.game.AndroidGame;
+import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.assets.Assets;
+import com.mygdx.game.entities.Background;
 import com.mygdx.game.entities.JumpPlayer;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -18,6 +23,8 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 public class HighScoresScreen extends AbstractScreen {
 
     Texture listImg;
+    Stage second;
+    Background background;
 
     HighScoresScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
@@ -25,8 +32,28 @@ public class HighScoresScreen extends AbstractScreen {
     }
 
     private void init() {
-        listImg = Assets.sharedInstance.assetManager.get("textures/highScoreScreen.png", Texture.class);
+        initBackground();
         initMainMenuButton();
+        initScores();
+    }
+
+    private void initBackground() {
+        second = new Stage(new StretchViewport(SCREEN_X, SCREEN_Y));
+        listImg = Assets.sharedInstance.assetManager.get("textures/highScoreScreen.png", Texture.class);
+
+        background = new Background(listImg);
+        background.setWidth(SCREEN_X);
+        background.setHeight(SCREEN_Y);
+        second.addActor(background);
+    }
+
+    private void initScores() {
+        for (int i = 1; i <= 10; i++) {
+            SimpleLabel score = new SimpleLabel(i + ". " + i * 23, Color.BROWN);
+            score.setY(790 - i * 50);
+            score.setX(100);
+            second.addActor(score);
+        }
     }
 
     private void initMainMenuButton() {
@@ -49,7 +76,8 @@ public class HighScoresScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(listImg, camera.position.x - AndroidGame.SCREEN_X / 2, camera.position.y - AndroidGame.SCREEN_Y / 2, SCREEN_X, SCREEN_Y);
+//        batch.draw(listImg, camera.position.x - AndroidGame.SCREEN_X / 2, camera.position.y - AndroidGame.SCREEN_Y / 2, SCREEN_X, SCREEN_Y);
+        second.draw();
         batch.end();
     }
 }
