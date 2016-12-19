@@ -17,8 +17,9 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
  * Created by ksikorski on 09.12.2016.
  */
 
-class AbstractScreen implements Screen {
+public class AbstractScreen implements Screen {
 
+    public static final float CAMERA_Y_DIFFERENCE = 300;
     protected final AndroidGame game;
 
     Stage stage;
@@ -48,7 +49,7 @@ class AbstractScreen implements Screen {
     }
 
     private void cameraUpdate() {
-        camera.position.set(player.getX() + player.getWidth()/2, player.getY() + 300, 0);
+        camera.position.set(player.getX() + player.getWidth()/2, player.getY() + CAMERA_Y_DIFFERENCE, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
     }

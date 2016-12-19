@@ -15,16 +15,22 @@ public class Assets implements Disposable {
     public final AssetManager assetManager = new AssetManager();
 
     public void loadData(){
+        //GAMEPLAY SCREEN
         assetManager.load("textures/player.png", Texture.class);
         assetManager.load("textures/platform.png", Texture.class);
         assetManager.load("textures/grass.png", Texture.class);
         assetManager.load("textures/grass2.png", Texture.class);
         assetManager.load("textures/clouds.png", Texture.class);
         assetManager.load("textures/log.png", Texture.class);
+
+        //OTHER SCREENS
         assetManager.load("textures/splashScreen.png", Texture.class);
         assetManager.load("textures/mainMenuScreen.png", Texture.class);
         assetManager.load("textures/endGameScreen.png", Texture.class);
+        assetManager.load("textures/highScoreScreen.png", Texture.class);
+        assetManager.load("textures/settingsScreen.png", Texture.class);
 
+        //SOUNDS
         assetManager.load("sounds/theme.mp3",Music.class);
         assetManager.load("sounds/jump.ogg",Sound.class);
         assetManager.load("sounds/gameover.mp3",Sound.class);

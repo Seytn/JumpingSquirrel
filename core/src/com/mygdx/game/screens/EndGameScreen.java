@@ -28,14 +28,16 @@ public class EndGameScreen extends AbstractScreen {
     private void init() {
         endGameImg = Assets.sharedInstance.assetManager.get("textures/endGameScreen.png", Texture.class);
         initRetryButton();
+        initMainMenuButton();
+        initExitButton();
     }
 
     private void initRetryButton() {
         Button button = new Button();
         button.setWidth(SCREEN_X);
-        button.setHeight(SCREEN_Y);
+        button.setHeight(100);
         button.setX(0);
-        button.setY(0);
+        button.setY(630 - CAMERA_Y_DIFFERENCE);
         button.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -49,6 +51,38 @@ public class EndGameScreen extends AbstractScreen {
             }
         });
         stage.addActor(button);
+    }
+
+    private void initMainMenuButton() {
+        Button mainMenuButton = new Button();
+        mainMenuButton.setWidth(SCREEN_X);
+        mainMenuButton.setHeight(90);
+        mainMenuButton.setX(0);
+        mainMenuButton.setY(500 - CAMERA_Y_DIFFERENCE);
+        mainMenuButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new MainMenuScreen(game, player));
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        stage.addActor(mainMenuButton);
+    }
+
+    private void initExitButton() {
+        Button exitButton = new Button();
+        exitButton.setWidth(SCREEN_X);
+        exitButton.setHeight(90);
+        exitButton.setX(0);
+        exitButton.setY(340 - CAMERA_Y_DIFFERENCE);
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.exit(0);
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        stage.addActor(exitButton);
     }
 
     @Override

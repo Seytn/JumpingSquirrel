@@ -2,7 +2,6 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -29,7 +28,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private PlatformService platformService;
-    private Music music;
+
     public Texture grassTexture;
     private Texture backgroundTexture;
     private Texture groundTexture;
@@ -49,7 +48,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         game.scoreService.resetScore();
 
         assignDataToVariables();
-        playMusic();
         initBackground();
         initGround();
         initWalls();
@@ -84,14 +82,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         stage.addActor(background);
     }
 
-    private void playMusic() {
-        if (music != null) {
-            music.setVolume(0.3f);
-            music.play();
-            music.setLooping(true);
-        }
-    }
-
     private void initControlTypeSelectButton() {
         controlModeSelectButton = new ControlModeSelectButton(new ClickCallback() {
             @Override
@@ -115,8 +105,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         backgroundTexture = Assets.sharedInstance.assetManager.get("textures/clouds.png",Texture.class);
         groundTexture = Assets.sharedInstance.assetManager.get("textures/grass2.png",Texture.class);
         logTexture = Assets.sharedInstance.assetManager.get("textures/log.png",Texture.class);
-
-        music = Assets.sharedInstance.assetManager.get("sounds/theme.mp3", Music.class);
     }
 
     private void initAccXValueLabel() {
