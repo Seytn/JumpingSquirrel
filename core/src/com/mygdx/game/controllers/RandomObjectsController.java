@@ -32,6 +32,7 @@ public class RandomObjectsController {
     public RandomObjectsController(AndroidGame game, Stage stage, JumpPlayer player) {
         this.game = game;
         this.stage = stage;
+        this.player = player;
         init();
 
     }

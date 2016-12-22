@@ -245,22 +245,30 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             accXValueLabel.setText(Float.toString(accelerometerX));
 
             /* Weighted arithmetic mean for smooth player animation */
-            averageAccX = (accelerometerX + (15 * averageAccX) / 16);
+            averageAccX = (accelerometerX + (3 * averageAccX) / 4);
 
-            if(averageAccX > 0.2 && player.getX() > 0){
-                if (averageAccX < 0.6){
-                    player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
-                } else {
-                    player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
-                }
+            if(averageAccX > 0.01 && player.getX() > 0){
+                player.setX(player.getX() - (averageAccX * 64 * Gdx.graphics.getDeltaTime()));
             }
-            if(averageAccX < -0.2 && player.getX() < SCREEN_X){
-                if (averageAccX > -0.6){
-                    player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
-                } else {
-                    player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
-                }
+
+            if(averageAccX < -0.01 && player.getX() < SCREEN_X) {
+                player.setX(player.getX() + (-averageAccX * 64 * Gdx.graphics.getDeltaTime()));
             }
+
+//            if(averageAccX > 0.2 && player.getX() > 0){
+//                if (averageAccX < 0.6){
+//                    player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
+//                } else {
+//                    player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
+//                }
+//            }
+//            if(averageAccX < -0.2 && player.getX() < SCREEN_X){
+//                if (averageAccX > -0.6){
+//                    player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
+//                } else {
+//                    player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
+//                }
+//            }
         }
 
         /* Auto jumping or manual - depends on selected jump mode */
