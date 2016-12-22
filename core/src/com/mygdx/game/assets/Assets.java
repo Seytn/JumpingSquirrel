@@ -22,6 +22,11 @@ public class Assets implements Disposable {
         assetManager.load("textures/clouds.png", Texture.class);
         assetManager.load("textures/log.png", Texture.class);
 
+        //BONUS OBJECTS
+        assetManager.load("textures/simple_nut.png", Texture.class);
+        assetManager.load("textures/falling_nut.png", Texture.class);
+        assetManager.load("textures/pepper.png", Texture.class);
+
         //OTHER SCREENS
         assetManager.load("textures/splashScreen.png", Texture.class);
         assetManager.load("textures/mainMenuScreen.png", Texture.class);
@@ -33,6 +38,7 @@ public class Assets implements Disposable {
         assetManager.load("sounds/theme.mp3",Music.class);
         assetManager.load("sounds/jump.ogg",Sound.class);
         assetManager.load("sounds/gameover.mp3",Sound.class);
+        assetManager.load("sounds/eat.mp3",Sound.class);
     }
 
 

@@ -10,6 +10,7 @@ import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.assets.Assets;
+import com.mygdx.game.controllers.RandomObjectsController;
 import com.mygdx.game.entities.Background;
 import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
@@ -40,6 +41,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private Ground ground;
     private Walls walls;
 
+    private RandomObjectsController randomObjectsController;
+
     private Float averageAccX = 0.0f;
 
 
@@ -59,7 +62,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         initScoreLabel();
         initBestScoreLabel();
 
+        initRandomObjectsController();
         stage.addActor(player);
+    }
+
+    private void initRandomObjectsController() {
+        randomObjectsController = new RandomObjectsController(game, stage, player);
     }
 
     private void initPlatformService() {

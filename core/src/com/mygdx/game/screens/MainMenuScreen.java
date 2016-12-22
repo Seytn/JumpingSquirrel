@@ -40,7 +40,7 @@ public class MainMenuScreen extends AbstractScreen {
         initHighScoreButton();
         initSettingsButton();
 
-        playMusic();
+//        playMusic();
     }
 
     private void playMusic() {
