@@ -22,7 +22,7 @@ public class AndroidGame extends Game {
 	public ScoreService scoreService;
 
 	public ControlMode controlMode = ControlMode.ACCELEROMETER;
-	public JumpMode jumpMode = JumpMode.MANUAL;
+	public JumpMode jumpMode = JumpMode.AUTO;
 
     public Texture playerTexture;
 

@@ -27,6 +27,8 @@ public class SettingsScreen extends AbstractScreen {
     private void init() {
         settingsImg = Assets.sharedInstance.assetManager.get("textures/settingsScreen.png", Texture.class);
         initMainMenuButton();
+        initJumpModeButton();
+        initControlModeButton();
     }
 
     private void initMainMenuButton() {
@@ -43,6 +45,56 @@ public class SettingsScreen extends AbstractScreen {
             }
         });
         stage.addActor(mainMenuButton);
+    }
+
+    private void initControlModeButton() {
+        Button controlModeButton = new Button();
+        controlModeButton.setWidth(SCREEN_X);
+        controlModeButton.setHeight(90);
+        controlModeButton.setX(-SCREEN_X / 2);
+        controlModeButton.setY(630 - CAMERA_Y_DIFFERENCE);
+        controlModeButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //TODO control mode icon
+                switch(game.controlMode){
+                    case ACCELEROMETER:
+                        game.controlMode = AndroidGame.ControlMode.MANUAL;
+                        break;
+                    case MANUAL:
+                        game.controlMode = AndroidGame.ControlMode.ACCELEROMETER;
+                        break;
+                }
+                System.out.println("ControlMode " + game.controlMode.toString());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        stage.addActor(controlModeButton);
+    }
+
+    private void initJumpModeButton() {
+        Button jumpModeButton = new Button();
+        jumpModeButton.setWidth(SCREEN_X);
+        jumpModeButton.setHeight(90);
+        jumpModeButton.setX(-SCREEN_X / 2);
+        jumpModeButton.setY(400 - CAMERA_Y_DIFFERENCE);
+        jumpModeButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                //TODO control mode icon
+                switch(game.jumpMode){
+                    case AUTO:
+                        game.jumpMode = AndroidGame.JumpMode.MANUAL;
+                        break;
+                    case MANUAL:
+                        game.jumpMode = AndroidGame.JumpMode.AUTO;
+                        break;
+                }
+                System.out.println("JumpMode " + game.jumpMode.toString());
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        stage.addActor(jumpModeButton);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -29,7 +28,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
  * Created by ksikorski on 09.12.2016.
  */
 
-public class GameScreen extends AbstractScreen implements InputProcessor {
+public class GameScreen extends AbstractScreen {
 
     private PlatformService platformService;
 
@@ -296,6 +295,18 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
         }
 
+        if (game.controlMode == AndroidGame.ControlMode.MANUAL) {
+            if (Gdx.input.isTouched()) {
+                if (Gdx.input.getX() < SCREEN_X / 2  && player.getX() > 0) {
+                    player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
+
+                }
+                if (Gdx.input.getX() > SCREEN_X / 2 && player.getX() < SCREEN_X) {
+                    player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
+                }
+            }
+        }
+
         /* Auto jumping or manual - depends on selected jump mode */
         switch (game.jumpMode) {
             case MANUAL: {
@@ -309,56 +320,5 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
                 break;
             }
         }
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int tapX, int tapY, int pointer) {
-        if (game.controlMode == AndroidGame.ControlMode.MANUAL) {
-            if (tapX < SCREEN_X / 2) {
-                player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
-
-                return true;
-            }
-            if (tapX > SCREEN_X / 2) {
-                player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
-                return true;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }
