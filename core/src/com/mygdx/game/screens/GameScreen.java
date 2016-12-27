@@ -12,11 +12,14 @@ import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.assets.Assets;
 import com.mygdx.game.controllers.RandomObjectsController;
 import com.mygdx.game.entities.Background;
+import com.mygdx.game.entities.BonusObject;
 import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
 import com.mygdx.game.entities.Walls;
 import com.mygdx.game.services.PlatformService;
+
+import java.util.ArrayList;
 
 import static com.mygdx.game.AndroidGame.GRAVITY;
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -135,8 +138,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public void render(float delta) {
         super.render(delta);
         update();
-        checkPlatformAndPlayerDependencies();
-        checkIfPlayerFellTooLow();
+        checkDependencies();
 
         batch.begin();
         stage.draw();
@@ -155,6 +157,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         buttonsPositionUpdate();
 
         stage.act();
+    }
+
+    private void checkDependencies(){
+        checkPlatformAndPlayerDependencies();
+        checkIfPlayerFellTooLow();
+        checkBonusObjectsAndPlayerDependencies();
     }
 
     private void wallsPositionUpdate() {
@@ -200,20 +208,32 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private void checkPlatformAndPlayerDependencies() {
         platformService.generateMorePlatforms();
 
-        for (Platform p : platformService.platformArray){
-            if(player.getY() - p.getY() > 600) {
-                platformService.platformArray.removeValue(p, true);
-                p.addAction(Actions.removeActor());
+        for (Platform platform : platformService.platformArray){
+            if(player.getY() - platform.getY() > 600) {
+                platform.addAction(Actions.removeActor());
+                platformService.platformArray.removeValue(platform, true);
                 break;
             }
 
-            if(isPlayerOnPlatform(p)){
-                addPlatformPoints(p);
-                player.setY(p.getY() + p.getHeight()-10);
+            if(isPlayerOnPlatform(platform)){
+                addPlatformPoints(platform);
+                player.setY(platform.getY() + platform.getHeight()-10);
                 player.canJump = true;
                 player.jumpSpeed = 0;
             }
         }
+    }
+
+    private void checkBonusObjectsAndPlayerDependencies() {
+        ArrayList<BonusObject> objectsToRemove = new ArrayList<BonusObject>();
+        for (BonusObject bonusObject : randomObjectsController.bonusList){
+            if(isPlayerOverlapsingBonusObject(bonusObject)){
+                addBonusPoints(bonusObject);
+                bonusObject.addAction(Actions.removeActor());
+                objectsToRemove.add(bonusObject);
+            }
+        }
+        randomObjectsController.bonusList.removeAll(objectsToRemove);
     }
 
     private void checkIfPlayerFellTooLow() {
@@ -221,6 +241,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             game.scoreService.saveScore();
             game.setScreen(new EndGameScreen(game, new JumpPlayer(game.playerTexture)));
         }
+    }
+
+    private void addBonusPoints(BonusObject bonusObject) {
+        game.scoreService.addPoints(20);
     }
 
     private void addPlatformPoints(Platform p) {
@@ -231,10 +255,17 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     }
 
     /* Stops falling down if on a platform */
-    private boolean isPlayerOnPlatform(Platform p) {
+    private boolean isPlayerOnPlatform(Platform platform) {
         Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
-        Rectangle rectPlatform = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+        Rectangle rectPlatform = new Rectangle(platform.getX(), platform.getY(), platform.getWidth(), platform.getHeight());
         return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && rectPlayer.getY() > rectPlatform.getY() + rectPlatform.getHeight() - 20;
+    }
+
+    /* Stops falling down if on a platform */
+    private boolean isPlayerOverlapsingBonusObject(BonusObject bonusObject) {
+        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        Rectangle rectBonusObject = new Rectangle(bonusObject.getX(), bonusObject.getY(), bonusObject.getWidth(), bonusObject.getHeight());
+        return rectBonusObject.overlaps(rectPlayer);
     }
 
     /* Input handling methods */
@@ -248,27 +279,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             averageAccX = (accelerometerX + (3 * averageAccX) / 4);
 
             if(averageAccX > 0.01 && player.getX() > 0){
-                player.setX(player.getX() - (averageAccX * 64 * Gdx.graphics.getDeltaTime()));
+                player.setX(player.getX() - (averageAccX * 50 * Gdx.graphics.getDeltaTime()));
             }
 
             if(averageAccX < -0.01 && player.getX() < SCREEN_X) {
-                player.setX(player.getX() + (-averageAccX * 64 * Gdx.graphics.getDeltaTime()));
+                player.setX(player.getX() + (-averageAccX * 50 * Gdx.graphics.getDeltaTime()));
             }
 
-//            if(averageAccX > 0.2 && player.getX() > 0){
-//                if (averageAccX < 0.6){
-//                    player.setX(player.getX() - (player.speed / 3 * Gdx.graphics.getDeltaTime()));
-//                } else {
-//                    player.setX(player.getX() - (player.speed * Gdx.graphics.getDeltaTime()));
-//                }
-//            }
-//            if(averageAccX < -0.2 && player.getX() < SCREEN_X){
-//                if (averageAccX > -0.6){
-//                    player.setX(player.getX() + (player.speed / 3 * Gdx.graphics.getDeltaTime()));
-//                } else {
-//                    player.setX(player.getX() + (player.speed * Gdx.graphics.getDeltaTime()));
-//                }
-//            }
         }
 
         /* Auto jumping or manual - depends on selected jump mode */

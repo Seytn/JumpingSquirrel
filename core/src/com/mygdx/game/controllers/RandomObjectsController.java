@@ -24,7 +24,7 @@ public class RandomObjectsController {
     JumpPlayer player;
 
     BonusObject bonusObject;
-    ArrayList<BonusObject> bonusList = new ArrayList<BonusObject>();
+    public ArrayList<BonusObject> bonusList = new ArrayList<BonusObject>();
 
     int startingX;
     int startingY;
@@ -50,7 +50,7 @@ public class RandomObjectsController {
                     }
                 }, spawnTime);
             }
-        }, 0, 1.0f);
+        }, 0, 3.0f);
     }
 
     private void addObjectToStage() {
@@ -91,7 +91,7 @@ public class RandomObjectsController {
     }
 
     private void randomizeSpawnTime() {
-        spawnTime = MathUtils.random(1.0f,3.0f);
+        spawnTime = MathUtils.random(7.0f,12.0f);
     }
 
     public void eraseObjects(){

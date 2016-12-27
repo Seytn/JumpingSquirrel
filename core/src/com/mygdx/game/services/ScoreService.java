@@ -55,7 +55,7 @@ public class ScoreService {
     }
 
     public void addPoints(int points) {
-        points += points;
+        this.points += points;
         checkIfBestScore();
     }
 
