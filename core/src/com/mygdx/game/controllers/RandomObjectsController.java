@@ -19,15 +19,15 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 public class RandomObjectsController {
 
     private float spawnTime;
-    AndroidGame game;
-    Stage stage;
-    JumpPlayer player;
+    private AndroidGame game;
+    private Stage stage;
+    private JumpPlayer player;
 
     BonusObject bonusObject;
     public ArrayList<BonusObject> bonusList = new ArrayList<BonusObject>();
 
-    int startingX;
-    int startingY;
+    private int startingX;
+    private int startingY;
     
     public RandomObjectsController(AndroidGame game, Stage stage, JumpPlayer player) {
         this.game = game;
