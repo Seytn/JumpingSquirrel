@@ -60,11 +60,11 @@ public class RandomObjectsController {
         BonusObject.BonusType randomType = BonusObject.BonusType.getRandom();
         switch(randomType){
             case FALLING_NUT: {
-                bonusObject = new BonusObject(BonusObject.BonusType.FALLING_NUT, game, startingX, startingY);
+                bonusObject = new BonusObject(BonusObject.BonusType.FALLING_NUT, startingX, startingY);
                 break;
             }
             case SIMPLE_NUT: {
-                bonusObject = new BonusObject(BonusObject.BonusType.SIMPLE_NUT, game, startingX, startingY);
+                bonusObject = new BonusObject(BonusObject.BonusType.SIMPLE_NUT, startingX, startingY);
                 break;
             }
 //            case ROTTING_NUT: {
@@ -78,11 +78,11 @@ public class RandomObjectsController {
 //                break;
 //            }
             case POISON: {
-                bonusObject = new BonusObject(BonusObject.BonusType.POISON, game, startingX, startingY);
+                bonusObject = new BonusObject(BonusObject.BonusType.POISON, startingX, startingY);
                 break;
             }
             default: {
-                bonusObject = new BonusObject(BonusObject.BonusType.SIMPLE_NUT, game, startingX, startingY);
+                bonusObject = new BonusObject(BonusObject.BonusType.SIMPLE_NUT, startingX, startingY);
             }
         }
         bonusList.add(bonusObject);

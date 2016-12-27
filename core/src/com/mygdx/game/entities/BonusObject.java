@@ -3,7 +3,6 @@ package com.mygdx.game.entities;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.mygdx.game.AndroidGame;
 import com.mygdx.game.assets.Assets;
 
 /**
@@ -32,14 +31,11 @@ public class BonusObject extends Image {
         }
     }
 
-    private BonusType type;
-    private AndroidGame game;
+    public BonusType type;
     private Sound spawnSound;
 
-    public BonusObject(BonusType type, final AndroidGame game, int startingX, int startingY) {
+    public BonusObject(BonusType type, int startingX, int startingY) {
         super(getTexture(type));
-
-        this.game = game;
         this.type = type;
 
 

@@ -228,12 +228,20 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         ArrayList<BonusObject> objectsToRemove = new ArrayList<BonusObject>();
         for (BonusObject bonusObject : randomObjectsController.bonusList){
             if(isPlayerOverlapsingBonusObject(bonusObject)){
+                checkIfPaprika(bonusObject);
                 addBonusPoints(bonusObject);
                 bonusObject.addAction(Actions.removeActor());
                 objectsToRemove.add(bonusObject);
             }
         }
         randomObjectsController.bonusList.removeAll(objectsToRemove);
+    }
+
+    private void checkIfPaprika(BonusObject bonusObject) {
+        if (bonusObject.type == BonusObject.BonusType.POISON){
+            game.scoreService.saveScore();
+            game.setScreen(new EndGameScreen(game, new JumpPlayer(game.playerTexture)));
+        }
     }
 
     private void checkIfPlayerFellTooLow() {
