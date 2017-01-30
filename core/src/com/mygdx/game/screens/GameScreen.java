@@ -16,7 +16,7 @@ import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
 import com.mygdx.game.entities.Walls;
-import com.mygdx.game.services.PlatformService;
+import com.mygdx.game.controllers.PlatformController;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class GameScreen extends AbstractScreen {
 
-    private PlatformService platformService;
+    private PlatformController platformService;
 
     public Texture grassTexture;
     private Texture backgroundTexture;
@@ -73,7 +73,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void initPlatformService() {
-        platformService = new PlatformService(this, stage);
+        platformService = new PlatformController(this, stage);
     }
 
     private void initWalls() {
@@ -226,11 +226,12 @@ public class GameScreen extends AbstractScreen {
     private void checkBonusObjectsAndPlayerDependencies() {
         ArrayList<BonusObject> objectsToRemove = new ArrayList<BonusObject>();
         for (BonusObject bonusObject : randomObjectsController.bonusList){
-            if(isPlayerOverlapsingBonusObject(bonusObject)){
+            if(isPlayerOverlappingBonusObject(bonusObject)){
                 checkIfPaprika(bonusObject);
                 addBonusPoints(bonusObject);
                 bonusObject.addAction(Actions.removeActor());
                 objectsToRemove.add(bonusObject);
+                //TODO play sound
             }
         }
         randomObjectsController.bonusList.removeAll(objectsToRemove);
@@ -263,20 +264,23 @@ public class GameScreen extends AbstractScreen {
 
     /* Stops falling down if on a platform */
     private boolean isPlayerOnPlatform(Platform platform) {
-        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        int collisionFix = 30;
+        Rectangle rectPlayer = new Rectangle(player.getX() + collisionFix, player.getY() + collisionFix, player.getWidth() - collisionFix, player.getHeight() - collisionFix);
         Rectangle rectPlatform = new Rectangle(platform.getX(), platform.getY(), platform.getWidth(), platform.getHeight());
         return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && rectPlayer.getY() > rectPlatform.getY() + rectPlatform.getHeight() - 20;
     }
 
     /* Stops falling down if on a platform */
-    private boolean isPlayerOverlapsingBonusObject(BonusObject bonusObject) {
-        Rectangle rectPlayer = new Rectangle(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+    private boolean isPlayerOverlappingBonusObject(BonusObject bonusObject) {
+        int collisionFix = 20;
+        Rectangle rectPlayer = new Rectangle(player.getX() + collisionFix, player.getY() + collisionFix, player.getWidth() - collisionFix, player.getHeight() - collisionFix);
         Rectangle rectBonusObject = new Rectangle(bonusObject.getX(), bonusObject.getY(), bonusObject.getWidth(), bonusObject.getHeight());
         return rectBonusObject.overlaps(rectPlayer);
     }
 
     /* Input handling methods */
     private void handleInput() {
+
         /* Accelerometer handler */
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
