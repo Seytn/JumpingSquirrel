@@ -1,10 +1,12 @@
 package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Timer;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
@@ -14,6 +16,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_X;
  */
 public class Platform extends Image {
 
+    public final static String GRASS_BROWN = "textures/grass_brown.png";
 
     public enum PlatformType {
         STANDARD,
@@ -46,6 +49,8 @@ public class Platform extends Image {
                 break;
             }
             case DISINTEGRATING: {
+                Texture newTexture = new Texture(GRASS_BROWN);
+                this.setDrawable(new SpriteDrawable(new Sprite(newTexture)));
                 addDisintegratingAnimation();
                 break;
             }
