@@ -3,10 +3,11 @@ package com.mygdx.game.controllers;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entities.Checkpoint;
 import com.mygdx.game.entities.Platform;
 import com.mygdx.game.screens.GameScreen;
+
+import java.util.ArrayList;
 
 /**
  * Created by ksikorski on 17.12.2016.
@@ -17,14 +18,14 @@ public class PlatformController {
     private int defaultSpacing = 300;
     private GameScreen gameScreen;
     private Stage stage;
-    public Array<Platform> platformArray;
+    public ArrayList<Platform> platformArray;
     private int platformAdded = 0;
     private Checkpoint checkpoint;
 
     public PlatformController(GameScreen gameScreen, Stage stage) {
         this.gameScreen = gameScreen;
         this.stage = stage;
-        platformArray = new Array<Platform>();
+        platformArray = new ArrayList<Platform>();
         init();
     }
 

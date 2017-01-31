@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Timer;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
 
@@ -12,6 +13,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_X;
  * Created by Kamil on 2016-07-23.
  */
 public class Platform extends Image {
+
 
     public enum PlatformType {
         STANDARD,
@@ -72,6 +74,20 @@ public class Platform extends Image {
         this.addAction(shake);
     }
 
+
+    public void disintegrate() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                removeAction();
+            }
+        }, 1);
+
+    }
+
+    private void removeAction() {
+        this.remove();
+    }
 }
 
    

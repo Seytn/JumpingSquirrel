@@ -30,7 +30,7 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class GameScreen extends AbstractScreen {
 
-    private PlatformController platformService;
+    private PlatformController platformController;
 
     public Texture grassTexture;
     private Texture backgroundTexture;
@@ -73,7 +73,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void initPlatformService() {
-        platformService = new PlatformController(this, stage);
+        platformController = new PlatformController(this, stage);
     }
 
     private void initWalls() {
@@ -205,12 +205,13 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void checkPlatformAndPlayerDependencies() {
-        platformService.generateMorePlatforms();
+        platformController.generateMorePlatforms();
 
-        for (Platform platform : platformService.platformArray){
+        ArrayList<Platform> platformsToRemove = new ArrayList<Platform>();
+        for (Platform platform : platformController.platformArray){
             if(player.getY() - platform.getY() > 600) {
                 platform.addAction(Actions.removeActor());
-                platformService.platformArray.removeValue(platform, true);
+                platformController.platformArray.remove(platform);
                 break;
             }
 
@@ -219,8 +220,14 @@ public class GameScreen extends AbstractScreen {
                 player.setY(platform.getY() + platform.getHeight()-10);
                 player.canJump = true;
                 player.jumpSpeed = 0;
+                if (platform.type == Platform.PlatformType.DISINTEGRATING) {
+                    platform.disintegrate();
+                    platformsToRemove.add(platform);
+                }
             }
         }
+
+        platformController.platformArray.removeAll(platformsToRemove);
     }
 
     private void checkBonusObjectsAndPlayerDependencies() {
