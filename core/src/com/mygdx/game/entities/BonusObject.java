@@ -83,26 +83,26 @@ public class BonusObject extends Image {
         int randomX = MathUtils.random(-20,(int) SCREEN_X/2+30);
         this.setX(randomX);
         Action move = Actions.forever(Actions.sequence(
-                Actions.moveBy(SCREEN_X/2,0,2.0f),
-                Actions.moveBy(-SCREEN_X/2,0,2.0f)
+                Actions.moveBy(SCREEN_X/1.4f,0,1.5f),
+                Actions.moveBy(-SCREEN_X/1.4f,0,1.5f)
         ));
         Action tremble = Actions.parallel(
                 move,
                 Actions.forever(Actions.rotateBy(360.0f,0.5f))
         );
+        Action fall = Actions.moveBy(0,-SCREEN_Y,8.0f);
         this.addAction(tremble);
+        this.addAction(fall);
     }
 
 
     public void fallDown() {
         Action fall = Actions.forever(Actions.sequence(
-                Actions.moveBy(-SCREEN_Y,0,4.0f)
+                Actions.moveBy(0,-SCREEN_Y,5.0f)
         ));
-        Action tremble = Actions.parallel(
-                fall,
-                Actions.forever(Actions.rotateBy(-360.0f,1.5f))
-        );
+        Action tremble = Actions.forever(Actions.rotateBy(-360.0f,1.5f));
         this.addAction(tremble);
+        this.addAction(fall);
     }
 
     public void tremble() {

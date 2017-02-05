@@ -50,7 +50,7 @@ public class RandomObjectsController {
                     }
                 }, spawnTime);
             }
-        }, 0, 3.0f);
+        }, 0, 4.0f);
     }
 
     private void addObjectToStage() {
@@ -93,7 +93,7 @@ public class RandomObjectsController {
     }
 
     private void randomizeSpawnTime() {
-        spawnTime = MathUtils.random(5.0f,10.0f);
+        spawnTime = MathUtils.random(3.0f,7.0f);
     }
 
     public void eraseObjects(){
