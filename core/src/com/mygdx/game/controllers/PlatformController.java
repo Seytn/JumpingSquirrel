@@ -9,6 +9,8 @@ import com.mygdx.game.screens.GameScreen;
 
 import java.util.ArrayList;
 
+import static com.mygdx.game.AndroidGame.SCREEN_X;
+
 /**
  * Created by ksikorski on 17.12.2016.
  */
@@ -42,7 +44,7 @@ public class PlatformController {
         for(int i = 1; i <= platformCountToAdd; i++){
             Platform.PlatformType randomType = Platform.PlatformType.getRandom();
             Platform p = new Platform(texture, randomType);
-            p.setX(MathUtils.random(620) - 30);
+            p.setX(MathUtils.random(SCREEN_X) - 130);
             p.setY(spacing * (i + firstPlatform));
             platformArray.add(p);
             stage.addActor(p);

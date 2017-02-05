@@ -67,10 +67,10 @@ public class Platform extends Image {
 
     private void addDisintegratingAnimation() {
         Action shake = Actions.forever(Actions.sequence(
-                Actions.moveBy(15,0,0.25f),
-                Actions.moveBy(-15,0,0.25f),
-                Actions.moveBy(15,0,0.25f),
-                Actions.moveBy(-15,0,0.25f),
+                Actions.moveBy(30,0,0.25f),
+                Actions.moveBy(-30,0,0.25f),
+                Actions.moveBy(30,0,0.25f),
+                Actions.moveBy(-30,0,0.25f),
                 Actions.delay(0.5f)
         ));
         this.addAction(shake);
@@ -83,7 +83,7 @@ public class Platform extends Image {
             public void run() {
                 removeAction();
             }
-        }, 0.2f);
+        }, 0.1f);
 
     }
 

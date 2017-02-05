@@ -93,7 +93,7 @@ public class RandomObjectsController {
     }
 
     private void randomizeSpawnTime() {
-        spawnTime = MathUtils.random(5.0f,12.0f);
+        spawnTime = MathUtils.random(5.0f,10.0f);
     }
 
     public void eraseObjects(){
