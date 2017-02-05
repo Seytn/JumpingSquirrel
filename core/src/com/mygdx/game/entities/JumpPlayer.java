@@ -44,7 +44,7 @@ public class JumpPlayer extends Image {
         );
         Action roll = Actions.parallel(
                 jumpAnimation,
-                Actions.rotateBy(360.0f,0.6f)
+                Actions.rotateBy(360.0f,0.9f)
         );
         this.addAction(roll);
     }

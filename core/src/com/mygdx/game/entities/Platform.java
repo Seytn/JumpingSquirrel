@@ -2,7 +2,6 @@ package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -59,8 +58,6 @@ public class Platform extends Image {
     }
 
     private void addMoveAnimation() {
-        int randomX = MathUtils.random(-100,50);
-        this.setX(randomX);
         Action move = Actions.forever(Actions.sequence(
                 Actions.moveBy(SCREEN_X/2,0,1.0f),
                 Actions.moveBy(-SCREEN_X/2,0,1.0f)
@@ -86,7 +83,7 @@ public class Platform extends Image {
             public void run() {
                 removeAction();
             }
-        }, 1);
+        }, 0.2f);
 
     }
 

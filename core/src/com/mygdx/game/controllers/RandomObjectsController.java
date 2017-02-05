@@ -55,16 +55,18 @@ public class RandomObjectsController {
 
     private void addObjectToStage() {
         bonusObject = null;
-        startingX = (int) MathUtils.random(15,SCREEN_X);
+        startingX = (int) MathUtils.random(-10,SCREEN_X - 150);
         startingY = (int) (MathUtils.random(15,300) + SCREEN_Y + player.getY());
         BonusObject.BonusType randomType = BonusObject.BonusType.getRandom();
         switch(randomType){
             case FALLING_NUT: {
                 bonusObject = new BonusObject(BonusObject.BonusType.FALLING_NUT, startingX, startingY);
+                bonusObject.fallDown();
                 break;
             }
             case SIMPLE_NUT: {
                 bonusObject = new BonusObject(BonusObject.BonusType.SIMPLE_NUT, startingX, startingY);
+                bonusObject.tremble();
                 break;
             }
 //            case ROTTING_NUT: {
@@ -79,6 +81,7 @@ public class RandomObjectsController {
 //            }
             case POISON: {
                 bonusObject = new BonusObject(BonusObject.BonusType.POISON, startingX, startingY);
+                bonusObject.move();
                 break;
             }
             default: {
@@ -87,7 +90,6 @@ public class RandomObjectsController {
         }
         bonusList.add(bonusObject);
         stage.addActor(bonusObject);
-//        bonusObject.tremble();
     }
 
     private void randomizeSpawnTime() {

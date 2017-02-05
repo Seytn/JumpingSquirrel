@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class PlatformController {
 
-    private int defaultSpacing = 300;
+    private int defaultSpacing = 290;
     private GameScreen gameScreen;
     private Stage stage;
     public ArrayList<Platform> platformArray;

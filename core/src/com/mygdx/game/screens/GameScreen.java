@@ -236,9 +236,9 @@ public class GameScreen extends AbstractScreen {
             if(isPlayerOverlappingBonusObject(bonusObject)){
                 checkIfPaprika(bonusObject);
                 addBonusPoints(bonusObject);
+                bonusObject.playSound();
                 bonusObject.addAction(Actions.removeActor());
                 objectsToRemove.add(bonusObject);
-                //TODO play sound
             }
         }
         randomObjectsController.bonusList.removeAll(objectsToRemove);
