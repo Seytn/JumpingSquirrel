@@ -59,7 +59,7 @@ public class ScoreService {
         checkIfBestScore();
     }
 
-    public void addPlatforPoints() {
+    public void addPlatformPoints() {
         points += 1;
         checkIfBestScore();
     }

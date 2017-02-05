@@ -33,6 +33,11 @@ public class Assets implements Disposable {
         assetManager.load("textures/endGameScreen.png", Texture.class);
         assetManager.load("textures/highScoreScreen.png", Texture.class);
         assetManager.load("textures/settingsScreen.png", Texture.class);
+        assetManager.load("textures/on-active.png", Texture.class);
+        assetManager.load("textures/on-inactive.png", Texture.class);
+        assetManager.load("textures/backToMenu.png",Texture.class);
+        assetManager.load("textures/arrow-left.png",Texture.class);
+        assetManager.load("textures/arrow-right.png",Texture.class);
 
         //SOUNDS
         assetManager.load("sounds/theme.mp3",Music.class);

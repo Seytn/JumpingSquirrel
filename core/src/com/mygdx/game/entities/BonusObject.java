@@ -10,6 +10,7 @@ import com.mygdx.game.assets.Assets;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
 import static com.mygdx.game.AndroidGame.SCREEN_Y;
+import static com.mygdx.game.AndroidGame.isSoundMuted;
 
 /**
  * Created by ksikorski on 22.12.2016.
@@ -54,7 +55,7 @@ public class BonusObject extends Image {
     }
 
     public void playSound() {
-        eatSound.play();
+        if (!isSoundMuted) eatSound.play();
     }
 
     private static Texture getTexture(BonusType type) {

@@ -12,6 +12,7 @@ import com.mygdx.game.entities.JumpPlayer;
 
 import static com.mygdx.game.AndroidGame.SCREEN_X;
 import static com.mygdx.game.AndroidGame.SCREEN_Y;
+import static com.mygdx.game.AndroidGame.isMusicMuted;
 
 /**
  * Created by Kamil on 2016-12-18.
@@ -20,9 +21,8 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 public class MainMenuScreen extends AbstractScreen {
 
     private Texture menuImg;
-    private Music music;
+    public static Music music;
 
-    private Button exitButton;
     private Button startGameButton;
     private Button highScoreButton;
     private Button settingsButton;
@@ -35,30 +35,32 @@ public class MainMenuScreen extends AbstractScreen {
 
     private void init() {
         menuImg = Assets.sharedInstance.assetManager.get("textures/mainMenuScreen.png", Texture.class);
-        initExitButton();
+
         initNewGameButton();
         initHighScoreButton();
         initSettingsButton();
 
-//        playMusic();
+        playMusic();
     }
 
     private void playMusic() {
         music = Assets.sharedInstance.assetManager.get("sounds/theme.mp3", Music.class);
 
         if (music != null) {
-            music.setVolume(0.3f);
-            music.play();
-            music.setLooping(true);
+            if (!isMusicMuted) {
+                music.setVolume(0.3f);
+                music.play();
+                music.setLooping(true);
+            }
         }
     }
 
     private void initSettingsButton() {
         settingsButton = new Button();
         settingsButton.setWidth(SCREEN_X);
-        settingsButton.setHeight(90);
+        settingsButton.setHeight(100);
         settingsButton.setX(-SCREEN_X / 2);
-        settingsButton.setY(510 - CAMERA_Y_DIFFERENCE);
+        settingsButton.setY(485 - CAMERA_Y_DIFFERENCE);
         settingsButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -90,29 +92,12 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(startGameButton);
     }
 
-    private void initExitButton() {
-        exitButton = new Button();
-        exitButton.setWidth(SCREEN_X);
-        exitButton.setHeight(90);
-        exitButton.setX(-SCREEN_X / 2);
-        exitButton.setY(340 - CAMERA_Y_DIFFERENCE);
-        exitButton.addListener(new ClickListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.scoreService.updateSavedScore();
-                System.exit(0);
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-        stage.addActor(exitButton);
-    }
-
     private void initHighScoreButton() {
         highScoreButton = new Button();
         highScoreButton.setWidth(SCREEN_X);
-        highScoreButton.setHeight(90);
+        highScoreButton.setHeight(100);
         highScoreButton.setX(-SCREEN_X / 2);
-        highScoreButton.setY(420 - CAMERA_Y_DIFFERENCE);
+        highScoreButton.setY(365 - CAMERA_Y_DIFFERENCE);
         highScoreButton.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

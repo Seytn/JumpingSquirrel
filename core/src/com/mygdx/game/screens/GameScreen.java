@@ -2,13 +2,21 @@ package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.AndroidGame;
 import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.assets.Assets;
+import com.mygdx.game.controllers.PlatformController;
 import com.mygdx.game.controllers.RandomObjectsController;
 import com.mygdx.game.entities.Background;
 import com.mygdx.game.entities.BonusObject;
@@ -16,7 +24,6 @@ import com.mygdx.game.entities.Ground;
 import com.mygdx.game.entities.JumpPlayer;
 import com.mygdx.game.entities.Platform;
 import com.mygdx.game.entities.Walls;
-import com.mygdx.game.controllers.PlatformController;
 
 import java.util.ArrayList;
 
@@ -36,12 +43,18 @@ public class GameScreen extends AbstractScreen {
     private Texture backgroundTexture;
     private Texture groundTexture;
     private Texture logTexture;
+    private Texture backButtonTexture;
+    private Texture arrowLeftTexture;
+    private Texture arrowRightTexture;
 
     private SimpleLabel accXValueLabel, scoreLabel, bestScoreLabel;
     private ControlModeSelectButton controlModeSelectButton;
     private Background background;
     private Ground ground;
     private Walls walls;
+    private ImageButton backButton;
+    private Image arrowLeft;
+    private Image arrowRight;
 
     private RandomObjectsController randomObjectsController;
 
@@ -57,15 +70,48 @@ public class GameScreen extends AbstractScreen {
         initGround();
         initWalls();
 
+        initBackToMenuButton();
         initPlatformService();
         initControlTypeSelectButton();
         initAccXValueLabel();
+        initArrows();
 
         initScoreLabel();
         initBestScoreLabel();
 
         initRandomObjectsController();
         stage.addActor(player);
+
+    }
+
+    private void initArrows() {
+        arrowLeft = new Image(arrowLeftTexture);
+        arrowRight = new Image(arrowRightTexture);
+        if (game.controlMode == AndroidGame.ControlMode.MANUAL){
+
+            arrowLeft.setHeight(180);
+            arrowLeft.setWidth(100);
+
+            arrowRight.setHeight(180);
+            arrowRight.setWidth(100);
+
+            stage.addActor(arrowLeft);
+            stage.addActor(arrowRight);
+        }
+    }
+
+    private void initBackToMenuButton() {
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(backButtonTexture));
+        backButton = new ImageButton(drawable);
+        backButton.addListener(new ClickListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                game.scoreService.saveScore();
+                game.setScreen(new MainMenuScreen(game, new JumpPlayer(game.playerTexture)));
+                return super.touchDown(event, x, y, pointer, button);
+            }
+        });
+        stage.addActor(backButton);
     }
 
     private void initRandomObjectsController() {
@@ -115,11 +161,14 @@ public class GameScreen extends AbstractScreen {
         backgroundTexture = Assets.sharedInstance.assetManager.get("textures/clouds.png",Texture.class);
         groundTexture = Assets.sharedInstance.assetManager.get("textures/grass2.png",Texture.class);
         logTexture = Assets.sharedInstance.assetManager.get("textures/log.png",Texture.class);
+        backButtonTexture = Assets.sharedInstance.assetManager.get("textures/backToMenu.png",Texture.class);
+        arrowLeftTexture = Assets.sharedInstance.assetManager.get("textures/arrow-left.png",Texture.class);
+        arrowRightTexture = Assets.sharedInstance.assetManager.get("textures/arrow-right.png",Texture.class);
     }
 
     private void initAccXValueLabel() {
-        accXValueLabel = new SimpleLabel("");
-        stage.addActor(accXValueLabel);
+//        accXValueLabel = new SimpleLabel("");
+//        stage.addActor(accXValueLabel);
     }
 
     private void initScoreLabel() {
@@ -155,7 +204,18 @@ public class GameScreen extends AbstractScreen {
         playerJumpPositionUpdate();
         buttonsPositionUpdate();
 
+        arrowsUpdate();
+        backButton.setY(camera.position.y + 330);
+        backButton.setX(camera.position.x + 20);
         stage.act();
+    }
+
+    private void arrowsUpdate() {
+        arrowLeft.setY(camera.position.y - 300);
+        arrowLeft.setX(camera.position.x - 250);
+
+        arrowRight.setY(camera.position.y - 300);
+        arrowRight.setX(camera.position.x + 150);
     }
 
     private void checkDependencies(){
@@ -180,7 +240,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void labelsPositionUpdate() {
-        accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 400);
+//        accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 400);
         scoreLabel.setPosition(camera.position.x - 280, camera.position.y + 460);
         bestScoreLabel.setPosition(camera.position.x - 280, camera.position.y + 425);
     }
@@ -264,7 +324,7 @@ public class GameScreen extends AbstractScreen {
 
     private void addPlatformPoints(Platform p) {
         if (!p.reached) {
-            game.scoreService.addPlatforPoints();
+            game.scoreService.addPlatformPoints();
             p.reached = true;
         }
     }
@@ -291,7 +351,7 @@ public class GameScreen extends AbstractScreen {
         /* Accelerometer handler */
         if (game.controlMode == AndroidGame.ControlMode.ACCELEROMETER) {
             float accelerometerX = Gdx.input.getAccelerometerX();
-            accXValueLabel.setText(Float.toString(accelerometerX));
+//            accXValueLabel.setText(Float.toString(accelerometerX));
 
             /* Weighted arithmetic mean for smooth player animation */
             averageAccX = (accelerometerX + (3 * averageAccX) / 4);

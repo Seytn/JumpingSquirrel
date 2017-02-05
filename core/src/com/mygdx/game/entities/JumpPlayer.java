@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.mygdx.game.assets.Assets;
 
+import static com.mygdx.game.AndroidGame.isSoundMuted;
+
 
 /**
  * Created by Kamil on 2016-07-23.
@@ -32,7 +34,7 @@ public class JumpPlayer extends Image {
         if(canJump){
             jumpSpeed += 875;
             canJump = false;
-            jumpSound.play();
+            if (!isSoundMuted) jumpSound.play();
             roll();
         }
     }

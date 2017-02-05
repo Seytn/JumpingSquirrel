@@ -19,6 +19,9 @@ public class AndroidGame extends Game {
     public final static float SCREEN_Y = 1024, SCREEN_X = 600;
 	public final static float GRAVITY = -20;
 
+    public static Boolean isSoundMuted = false;
+    public static Boolean isMusicMuted = false;
+
 	public ScoreService scoreService;
 
 	public ControlMode controlMode = ControlMode.ACCELEROMETER;
