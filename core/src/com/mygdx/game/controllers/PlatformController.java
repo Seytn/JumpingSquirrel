@@ -24,6 +24,11 @@ public class PlatformController {
     private int platformAdded = 0;
     private Checkpoint checkpoint;
 
+    /**
+     * PlatformControler constructor. Initializes platform array.
+     * @param gameScreen gameplay screen instance where platforms will be showed
+     * @param stage stage to which platforms will be added
+     */
     public PlatformController(GameScreen gameScreen, Stage stage) {
         this.gameScreen = gameScreen;
         this.stage = stage;
@@ -36,10 +41,20 @@ public class PlatformController {
         generatePlatforms(0, 20, defaultSpacing, gameScreen.grassTexture);
     }
 
+    /**
+     * Prepares checkpoint. Its necessary because of generating new arrays set.
+     */
     private void prepareCheckpoint() {
         checkpoint = new Checkpoint(platformAdded);
     }
 
+    /**
+     * Generate platforms and add them to stage
+     * @param firstPlatform first platform y
+     * @param platformCountToAdd count of platforms to add
+     * @param spacing spacing between platforms
+     * @param texture texture of platform
+     */
     private void generatePlatforms(int firstPlatform, int platformCountToAdd, int spacing, Texture texture) {
         for(int i = 1; i <= platformCountToAdd; i++){
             Platform.PlatformType randomType = Platform.PlatformType.getRandom();
@@ -52,10 +67,16 @@ public class PlatformController {
         platformAdded = platformAdded + platformCountToAdd;
     }
 
+    /**
+     * checkpoint reached
+     */
     private void changeCheckpointValue() {
         checkpoint.setValue(platformAdded);
     }
 
+    /**
+     * generate platforms if player is reaching lasts platforms
+     */
     public void generateMorePlatforms() {
         if (gameScreen.player.getY() >= defaultSpacing * (checkpoint.getValue() - 3)){
             generatePlatforms(platformAdded, 20, defaultSpacing, gameScreen.grassTexture);

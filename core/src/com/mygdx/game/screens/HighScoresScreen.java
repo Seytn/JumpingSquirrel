@@ -27,11 +27,19 @@ public class HighScoresScreen extends AbstractScreen {
     Stage second;
     Background background;
 
+    /**
+     * HighScoresScreen constructor
+     * @param game
+     * @param player
+     */
     HighScoresScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         init();
     }
 
+    /**
+     * init method
+     */
     private void init() {
         initBackground();
         initMainMenuButton();

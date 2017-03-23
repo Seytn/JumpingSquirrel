@@ -27,6 +27,12 @@ public class AbstractScreen implements Screen {
     SpriteBatch batch;
     public JumpPlayer player;
 
+    /**
+     * AbstractScreen constructor, sets fields game and player for future use.
+     * Initializes camera, spriteBatch and stage.
+     * @param game
+     * @param player
+     */
     AbstractScreen(AndroidGame game, JumpPlayer player) {
         this.game = game;
         this.player = player;
@@ -37,23 +43,37 @@ public class AbstractScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * override method which is called every frame.
+     * calls clearScreen and cameraUpdate methods
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         clearScreen();
         cameraUpdate();
     }
 
+    /**
+     * set screen to one color
+     */
     private void clearScreen(){
         Gdx.gl.glClearColor(0.8f, 0.8f, 0f, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
+    /**
+     * update camera position depending on player position
+     */
     private void cameraUpdate() {
         camera.position.set(player.getX() + player.getWidth()/2, player.getY() + CAMERA_Y_DIFFERENCE, 0);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
     }
 
+    /**
+     * initialize camera as OrtographicCamera
+     */
     private void createCamera() {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_X, SCREEN_Y);

@@ -10,6 +10,10 @@ import static com.mygdx.game.screens.AbstractScreen.CAMERA_Y_DIFFERENCE;
  */
 
 public class Ground extends Image {
+    /**
+     * Ground object constructor. Sets texture, size and position.
+     * @param texture texture of object
+     */
     public Ground(Texture texture) {
         super(texture);
         this.setSize(1500, 570);

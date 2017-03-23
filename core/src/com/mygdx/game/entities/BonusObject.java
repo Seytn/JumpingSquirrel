@@ -18,6 +18,9 @@ import static com.mygdx.game.AndroidGame.isSoundMuted;
 
 public class BonusObject extends Image {
 
+    /**
+     * BonusType enum. All types has their own dimensions.
+     */
     public enum BonusType{
         SIMPLE_NUT(90,70),
         FALLING_NUT(60,110),
@@ -33,6 +36,9 @@ public class BonusObject extends Image {
 
         }
 
+        /**
+         * @return enum type as random
+         */
         public static BonusType getRandom() {
             return values()[(int) (Math.random() * values().length)];
         }
@@ -41,6 +47,12 @@ public class BonusObject extends Image {
     public BonusType type;
     private Sound eatSound;
 
+    /**
+     * BonusObject constructor. Sets object dimensions and tarting position on the screen
+     * @param type enum of BonusType
+     * @param startingX starting x position
+     * @param startingY starting y position
+     */
     public BonusObject(BonusType type, int startingX, int startingY) {
         super(getTexture(type));
         this.type = type;
@@ -54,10 +66,17 @@ public class BonusObject extends Image {
         eatSound = Assets.sharedInstance.assetManager.get("sounds/eat.mp3",Sound.class);
     }
 
+    /**
+     * play sound when object is "eaten"
+     */
     public void playSound() {
         if (!isSoundMuted) eatSound.play();
     }
 
+    /**
+     * @param type type of object
+     * @return texture depends on object type
+     */
     private static Texture getTexture(BonusType type) {
         switch(type){
             case POISON: {
@@ -79,6 +98,9 @@ public class BonusObject extends Image {
         }
     }
 
+    /**
+     * Animation of moving left and right forever, and fall a little
+     */
     public void move() {
         int randomX = MathUtils.random(-20,(int) SCREEN_X/2+30);
         this.setX(randomX);
@@ -95,7 +117,9 @@ public class BonusObject extends Image {
         this.addAction(fall);
     }
 
-
+    /**
+     * falling down animation
+     */
     public void fallDown() {
         Action fall = Actions.forever(Actions.sequence(
                 Actions.moveBy(0,-SCREEN_Y,5.0f)
@@ -105,6 +129,9 @@ public class BonusObject extends Image {
         this.addAction(fall);
     }
 
+    /**
+     * Animation for "pulse"
+     */
     public void tremble() {
         Action tremble = Actions.forever(Actions.sequence(
                 Actions.sizeBy(20.0f, 20.0f, 0.1f),

@@ -14,6 +14,9 @@ public class Assets implements Disposable {
     public static final Assets sharedInstance = new Assets();
     public final AssetManager assetManager = new AssetManager();
 
+    /**
+     * Load assets such as audio files and textures to memory
+     */
     public void loadData(){
         //GAMEPLAY SCREEN
         assetManager.load("textures/player.png", Texture.class);

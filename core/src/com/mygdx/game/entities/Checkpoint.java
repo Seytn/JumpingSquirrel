@@ -8,6 +8,10 @@ public class Checkpoint {
 
     private int value;
 
+    /**
+     * Checkpoint constructor
+     * @param platformAdded last platform generated
+     */
     public Checkpoint(int platformAdded) {
         value = platformAdded;
     }

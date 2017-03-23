@@ -9,10 +9,18 @@ import com.mygdx.game.services.ScoreService;
 
 public class AndroidGame extends Game {
 
+    /**
+     * Set control mode to:
+     * MANUAL - use arrows
+     * ACCELEROMETER - use accelerometer
+     */
     public enum ControlMode {
         MANUAL, ACCELEROMETER
     }
 
+    /**
+     * Set JumpMote to auto or manual
+     */
     public enum JumpMode {
         MANUAL, AUTO
     }
@@ -24,11 +32,14 @@ public class AndroidGame extends Game {
 
 	public ScoreService scoreService;
 
-	public ControlMode controlMode = ControlMode.ACCELEROMETER;
-	public JumpMode jumpMode = JumpMode.AUTO;
+	public ControlMode controlMode;
+	public JumpMode jumpMode;
 
     public Texture playerTexture;
 
+    /**
+     * Load assets, init ScoreService and if everything is loaded set actual screen to SplashScreen
+     */
 	@Override
 	public void create () {
 		Assets.sharedInstance.loadData();
@@ -42,6 +53,9 @@ public class AndroidGame extends Game {
         }
 	}
 
+    /**
+     * initialize new ScoreService instance
+     */
     private void initScoreService() {
         scoreService = new ScoreService();
     }

@@ -17,6 +17,9 @@ public class Platform extends Image {
 
     public final static String GRASS_BROWN = "textures/grass_brown.png";
 
+    /**
+     * Types of platform
+     */
     public enum PlatformType {
         STANDARD,
         MOVING,
@@ -30,6 +33,11 @@ public class Platform extends Image {
     public boolean reached = false;
     public PlatformType type;
 
+    /**
+     * Platform constructor. Sets size and type.
+     * @param texture texture for platform
+     * @param type type of a platform
+     */
     public Platform(Texture texture, PlatformType type) {
         super(texture);
         this.setSize(265, 85);
@@ -38,6 +46,9 @@ public class Platform extends Image {
         handlePlatformType();
     }
 
+    /**
+     * Depends of platform type add animation
+     */
     private void handlePlatformType() {
         switch (type) {
             case STANDARD: {
@@ -57,6 +68,9 @@ public class Platform extends Image {
 
     }
 
+    /**
+     * Move animation
+     */
     private void addMoveAnimation() {
         Action move = Actions.forever(Actions.sequence(
                 Actions.moveBy(SCREEN_X/2,0,1.0f),
@@ -65,6 +79,9 @@ public class Platform extends Image {
         this.addAction(move);
     }
 
+    /**
+     * shake animation
+     */
     private void addDisintegratingAnimation() {
         Action shake = Actions.forever(Actions.sequence(
                 Actions.moveBy(30,0,0.25f),
@@ -76,7 +93,9 @@ public class Platform extends Image {
         this.addAction(shake);
     }
 
-
+    /**
+     * remove platform after delay
+     */
     public void disintegrate() {
         Timer.schedule(new Timer.Task() {
             @Override
@@ -87,6 +106,9 @@ public class Platform extends Image {
 
     }
 
+    /**
+     * remove object (platform)
+     */
     private void removeAction() {
         this.remove();
     }

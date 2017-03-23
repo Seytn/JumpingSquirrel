@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.AndroidGame;
-import com.mygdx.game.UI.ClickCallback;
 import com.mygdx.game.UI.ControlModeSelectButton;
 import com.mygdx.game.UI.SimpleLabel;
 import com.mygdx.game.assets.Assets;
@@ -60,7 +59,11 @@ public class GameScreen extends AbstractScreen {
 
     private Float averageAccX = 0.0f;
 
-
+    /**
+     * GameScreen constructor, it initializes graphic objects and adds them to stage.
+     * @param game instance of AndroidGame
+     * @param player this is a "Jumping Squirrel" instance
+     */
     public GameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         game.scoreService.resetScore();
@@ -72,7 +75,6 @@ public class GameScreen extends AbstractScreen {
 
         initBackToMenuButton();
         initPlatformService();
-        initControlTypeSelectButton();
         initAccXValueLabel();
         initArrows();
 
@@ -84,6 +86,9 @@ public class GameScreen extends AbstractScreen {
 
     }
 
+    /**
+     * initialize arrows if control mode is set to MANUAL
+     */
     private void initArrows() {
         arrowLeft = new Image(arrowLeftTexture);
         arrowRight = new Image(arrowRightTexture);
@@ -100,6 +105,9 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * add back button to stage
+     */
     private void initBackToMenuButton() {
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(backButtonTexture));
         backButton = new ImageButton(drawable);
@@ -114,48 +122,48 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(backButton);
     }
 
+    /**
+     * make new instance of RandomObjectController
+     */
     private void initRandomObjectsController() {
         randomObjectsController = new RandomObjectsController(game, stage, player);
     }
 
+    /**
+     * initialize PlatformService passing self and stage instance to its constructor method.
+     */
     private void initPlatformService() {
         platformController = new PlatformController(this, stage);
     }
 
+    /**
+     * add walls to stage
+     */
     private void initWalls() {
         walls = new Walls(logTexture, stage);
         stage.addActor(walls.leftWall);
         stage.addActor(walls.rightWall);
     }
 
+    /**
+     * add ground to stage
+     */
     private void initGround() {
         ground = new Ground(groundTexture);
         stage.addActor(ground);
     }
 
+    /**
+     * make background and add to stage
+     */
     private void initBackground() {
         background = new Background(backgroundTexture);
         stage.addActor(background);
     }
 
-    private void initControlTypeSelectButton() {
-        controlModeSelectButton = new ControlModeSelectButton(new ClickCallback() {
-            @Override
-            public void onClick() {
-                switch (game.controlMode) {
-                    case ACCELEROMETER: {
-                        game.controlMode = AndroidGame.ControlMode.MANUAL;
-                        break;
-                    }
-                    case MANUAL: {
-                        game.controlMode = AndroidGame.ControlMode.ACCELEROMETER;
-                        break;
-                    }
-                }
-            }
-        });
-    }
-
+    /**
+     * take textures from Asset Manager and assign them to variables
+     */
     private void assignDataToVariables() {
         grassTexture = Assets.sharedInstance.assetManager.get("textures/grass.png",Texture.class);
         backgroundTexture = Assets.sharedInstance.assetManager.get("textures/clouds.png",Texture.class);
@@ -166,11 +174,17 @@ public class GameScreen extends AbstractScreen {
         arrowRightTexture = Assets.sharedInstance.assetManager.get("textures/arrow-right.png",Texture.class);
     }
 
+    /**
+     * show actual accelerometer X value on the screen
+     */
     private void initAccXValueLabel() {
 //        accXValueLabel = new SimpleLabel("");
 //        stage.addActor(accXValueLabel);
     }
 
+    /**
+     * add score label to screen
+     */
     private void initScoreLabel() {
         scoreLabel = new SimpleLabel("");
         stage.addActor(scoreLabel);
@@ -181,7 +195,10 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(bestScoreLabel);
     }
 
-    /* Main render method */
+    /**
+     * override method that is called every frame
+     * @param delta time between last and actual frame
+     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -194,6 +211,10 @@ public class GameScreen extends AbstractScreen {
     }
 
     /* objects (images, labels, buttons etc.) position update methods */
+
+    /**
+     * update objects and their positions on the screen
+     */
     private void update() {
         handleInput();
         updateScoreLabel();
@@ -210,6 +231,9 @@ public class GameScreen extends AbstractScreen {
         stage.act();
     }
 
+    /**
+     * update position of arrows
+     */
     private void arrowsUpdate() {
         arrowLeft.setY(camera.position.y - 300);
         arrowLeft.setX(camera.position.x - 250);
@@ -218,38 +242,58 @@ public class GameScreen extends AbstractScreen {
         arrowRight.setX(camera.position.x + 150);
     }
 
+    /**
+     * call collision checking methods
+     */
     private void checkDependencies(){
         checkPlatformAndPlayerDependencies();
         checkIfPlayerFellTooLow();
         checkBonusObjectsAndPlayerDependencies();
     }
 
+    /**
+     * update position of walls
+     */
     private void wallsPositionUpdate() {
         walls.leftWall.setY(camera.position.y - SCREEN_Y);
         walls.rightWall.setY(camera.position.y - SCREEN_Y);
     }
 
+    /**
+     * update position of scoreLabel
+     */
     private void updateScoreLabel() {
         scoreLabel.setText("Score: " + game.scoreService.getPoints());
         bestScoreLabel.setText("Your best: " + game.scoreService.getBestScore());
     }
 
+    /**
+     * update position of background texture
+     */
     private void backgroundPositionUpdate() {
         background.setX(camera.position.x - SCREEN_X / 2);
         background.setY(camera.position.y - SCREEN_Y / 2);
     }
 
+    /**
+     * update position of labels
+     */
     private void labelsPositionUpdate() {
 //        accXValueLabel.setPosition(camera.position.x + 100, camera.position.y + 400);
         scoreLabel.setPosition(camera.position.x - 280, camera.position.y + 460);
         bestScoreLabel.setPosition(camera.position.x - 280, camera.position.y + 425);
     }
 
+    /**
+     * update position of buttons
+     */
     private void buttonsPositionUpdate() {
 		controlModeSelectButton.setPosition(camera.position.x + 100, camera.position.y + 250);
     }
 
-    /* Handle player jumping animation */
+    /**
+     * handle player jumping animation
+     */
     private void playerJumpPositionUpdate() {
         player.setY(player.getY() + (player.jumpSpeed * Gdx.graphics.getDeltaTime()));
 
@@ -264,6 +308,9 @@ public class GameScreen extends AbstractScreen {
         player.setGreatestHeight(player.getY());
     }
 
+    /**
+     * check player and platform dependencies
+     */
     private void checkPlatformAndPlayerDependencies() {
         platformController.generateMorePlatforms();
 
@@ -290,6 +337,9 @@ public class GameScreen extends AbstractScreen {
         platformController.platformArray.removeAll(platformsToRemove);
     }
 
+    /**
+     * check player and bonus objects dependencies
+     */
     private void checkBonusObjectsAndPlayerDependencies() {
         ArrayList<BonusObject> objectsToRemove = new ArrayList<BonusObject>();
         for (BonusObject bonusObject : randomObjectsController.bonusList){
@@ -304,6 +354,10 @@ public class GameScreen extends AbstractScreen {
         randomObjectsController.bonusList.removeAll(objectsToRemove);
     }
 
+    /**
+     * check is collected object is paprika type (poison)
+     * @param bonusObject
+     */
     private void checkIfPaprika(BonusObject bonusObject) {
         if (bonusObject.type == BonusObject.BonusType.POISON){
             game.scoreService.saveScore();
@@ -311,6 +365,9 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * check if player is falling too deep
+     */
     private void checkIfPlayerFellTooLow() {
         if (player.getGreatestHeight() - player.getY() > 800){
             game.scoreService.saveScore();
@@ -318,10 +375,18 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
+    /**
+     * add points when bonus object is taken
+     * @param bonusObject bonus object instance
+     */
     private void addBonusPoints(BonusObject bonusObject) {
         game.scoreService.addPoints(20);
     }
 
+    /**
+     * add points when new platform is reached
+     * @param p
+     */
     private void addPlatformPoints(Platform p) {
         if (!p.reached) {
             game.scoreService.addPlatformPoints();
@@ -329,7 +394,11 @@ public class GameScreen extends AbstractScreen {
         }
     }
 
-    /* Stops falling down if on a platform */
+    /**
+     * Stop player from falling down if on a platform
+     * @param platform instance of platform
+     * @return true if on platform
+     */
     private boolean isPlayerOnPlatform(Platform platform) {
         int collisionFix = 30;
         Rectangle rectPlayer = new Rectangle(player.getX() + collisionFix, player.getY() + collisionFix, player.getWidth() - collisionFix, player.getHeight() - collisionFix);
@@ -337,7 +406,11 @@ public class GameScreen extends AbstractScreen {
         return player.jumpSpeed <= 0 && rectPlayer.overlaps(rectPlatform) && rectPlayer.getY() > rectPlatform.getY() + rectPlatform.getHeight() - 20;
     }
 
-    /* Stops falling down if on a platform */
+    /**
+     * Check player and bonus object collision
+     * @param bonusObject object instance
+     * @return true if collision detected
+     */
     private boolean isPlayerOverlappingBonusObject(BonusObject bonusObject) {
         int collisionFix = 20;
         Rectangle rectPlayer = new Rectangle(player.getX() + collisionFix, player.getY() + collisionFix, player.getWidth() - collisionFix, player.getHeight() - collisionFix);
@@ -345,7 +418,9 @@ public class GameScreen extends AbstractScreen {
         return rectBonusObject.overlaps(rectPlayer);
     }
 
-    /* Input handling methods */
+    /**
+     * Handle input from accelerometer or touchscreen and change player position
+     */
     private void handleInput() {
 
         /* Accelerometer handler */

@@ -18,6 +18,11 @@ public class Walls {
     public Image leftWall;
     public Image rightWall;
 
+    /**
+     * Walls constructor. Makes two walls.
+     * @param texture texture for walls
+     * @param stage stage which to walls will be added
+     */
     public Walls(Texture texture, Stage stage) {
         this.texture = texture;
         this.stage = stage;
@@ -25,6 +30,9 @@ public class Walls {
         makeWalls();
     }
 
+    /**
+     * set texture, dimensions and position of walls
+     */
     private void makeWalls() {
         leftWall = new Image(texture);
         rightWall = new Image(texture);

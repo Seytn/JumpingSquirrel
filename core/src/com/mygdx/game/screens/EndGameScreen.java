@@ -20,19 +20,29 @@ public class EndGameScreen extends AbstractScreen {
 
     private Texture endGameImg;
 
+    /**
+     * EndGameScreen constructor
+     * @param game AndroidGame instance
+     * @param player Player instance
+     */
     EndGameScreen(AndroidGame game, JumpPlayer player) {
         super(game, player);
         init();
         game.scoreService.updateSavedScore();
     }
 
+    /**
+     * init background and buttons for screen
+     */
     private void init() {
         endGameImg = Assets.sharedInstance.assetManager.get("textures/endGameScreen.png", Texture.class);
         initRetryButton();
         initMainMenuButton();
-        initExitButton();
     }
 
+    /**
+     * init try again button
+     */
     private void initRetryButton() {
         Button button = new Button();
         button.setWidth(SCREEN_X);
@@ -54,6 +64,9 @@ public class EndGameScreen extends AbstractScreen {
         stage.addActor(button);
     }
 
+    /**
+     * init main menu button
+     */
     private void initMainMenuButton() {
         Button mainMenuButton = new Button();
         mainMenuButton.setWidth(SCREEN_X);
@@ -68,23 +81,6 @@ public class EndGameScreen extends AbstractScreen {
             }
         });
         stage.addActor(mainMenuButton);
-    }
-
-    private void initExitButton() {
-        Button exitButton = new Button();
-        exitButton.setWidth(SCREEN_X);
-        exitButton.setHeight(90);
-        exitButton.setX(-SCREEN_X / 2);
-        exitButton.setY(340 - CAMERA_Y_DIFFERENCE);
-        exitButton.addListener(new ClickListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                game.scoreService.updateSavedScore();
-                System.exit(0);
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-        stage.addActor(exitButton);
     }
 
     @Override

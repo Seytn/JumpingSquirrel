@@ -28,7 +28,10 @@ public class RandomObjectsController {
 
     private int startingX;
     private int startingY;
-    
+
+    /**
+     * RandomObjectController constructor. Sets fields for future use, and inits objects spawning.
+     */
     public RandomObjectsController(AndroidGame game, Stage stage, JumpPlayer player) {
         this.game = game;
         this.stage = stage;
@@ -37,6 +40,11 @@ public class RandomObjectsController {
 
     }
 
+    /**
+     * Init spawning by using two timers.
+     * First timer is working all the time. Second is called in random spawn time.
+     * Therefore objects can be inserted to stage in random.
+     */
     private void init() {
         Timer.schedule(new Timer.Task() {
             @Override
@@ -53,6 +61,9 @@ public class RandomObjectsController {
         }, 0, 4.0f);
     }
 
+    /**
+     * Add Objest to stage and depending on object type sets starting position and animation
+     */
     private void addObjectToStage() {
         bonusObject = null;
         startingX = (int) MathUtils.random(-10,SCREEN_X - 150);
@@ -92,15 +103,11 @@ public class RandomObjectsController {
         stage.addActor(bonusObject);
     }
 
+    /**
+     * set spawn time to random values between 3s and 7s
+     */
     private void randomizeSpawnTime() {
         spawnTime = MathUtils.random(3.0f,7.0f);
-    }
-
-    public void eraseObjects(){
-        for (BonusObject o : bonusList){
-            o.remove();
-        }
-        bonusList.clear();
     }
 
 }

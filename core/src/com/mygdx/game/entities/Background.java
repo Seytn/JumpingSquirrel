@@ -12,6 +12,11 @@ import static com.mygdx.game.AndroidGame.SCREEN_Y;
 
 public class Background extends Image {
 
+    /**
+     * Background object constructor. Makes image depending on passed texture and sets size to
+     * screen dimensions
+     * @param texture
+     */
     public Background (Texture texture) {
         super(texture);
         this.setSize(SCREEN_X, SCREEN_Y);
